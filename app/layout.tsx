@@ -60,7 +60,7 @@ export default function RootLayout({
         <Script
           async
           strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7576498244677518"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4168167607384837"
           crossOrigin="anonymous"
         />
 
