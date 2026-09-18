@@ -74,7 +74,7 @@ html {
       </head>
 
       <body className={`${fraunces.variable} ${workSans.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           {children}
           <CookieConsent />
           <Analytics />

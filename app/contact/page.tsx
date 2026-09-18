@@ -102,7 +102,7 @@ export default function ContactPage() {
           <div>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "3rem" }}>
               {[
-                { icon: "✉️", label: "Email", val: "yrdly@gmail.com", href: "mailto:yrdly@gmail.com" },
+                { icon: "✉️", label: "Email", val: "support@yrdly.ng", href: "mailto:support@yrdly.ng" },
                 { icon: "📱", label: "Phone", val: "09166368783", href: "tel:09166368783" },
                 { icon: "📸", label: "Instagram", val: "@yardly.ng", href: "https://instagram.com/yardly.ng" },
               ].map((c) => (

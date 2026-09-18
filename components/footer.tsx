@@ -67,7 +67,7 @@ export default function Footer() {
               >
                 📸 @yardly.ng
               </a>
-              <a href="mailto:yrdly@gmail.com" className="pill">
+              <a href="mailto:support@yrdly.ng" className="pill">
                 ✉️ Email
               </a>
               <a href="tel:09166368783" className="pill">

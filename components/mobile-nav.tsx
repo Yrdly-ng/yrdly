@@ -74,7 +74,7 @@ export default function MobileNav() {
                 {[
                   { icon: <Instagram className="w-5 h-5" />, href: "https://www.instagram.com/yardly.ng" },
                   { icon: <Twitter className="w-5 h-5" />, href: "https://x.com/yrdlyapp" },
-                  { icon: <MessageCircle className="w-5 h-5" />, href: "mailto:yrdly@gmail.com" },
+                  { icon: <MessageCircle className="w-5 h-5" />, href: "mailto:support@yrdly.ng" },
                 ].map((social, i) => (
                   <Link 
                     key={i} 
