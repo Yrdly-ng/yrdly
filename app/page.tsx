@@ -10,6 +10,7 @@ import { HeroLoginForm } from '@/components/auth/HeroLoginForm';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { PwaInstallSection } from '@/components/PwaInstallSection';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -216,6 +217,9 @@ const YrdlyHomepage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* PWA Install Section */}
+      <PwaInstallSection />
 
       {/* Community Pulse Newsletter */}
       <section className="py-16 lg:py-20 bg-[#82DB7E]/10">
