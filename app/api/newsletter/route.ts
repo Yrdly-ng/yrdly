@@ -22,21 +22,25 @@ export async function POST(request: NextRequest) {
     const { email, source } = validatedData;
 
     // ── IP Rate Limiting ──────────────────────────────────────────────────────
-    const forwardedFor = request.headers.get('x-forwarded-for');
-    const ip = (
-      forwardedFor
-        ? forwardedFor.split(',')[0].trim()
-        : request.headers.get('x-real-ip') || 'unknown'
-    ).substring(0, 45);
+    try {
+      const forwardedFor = request.headers.get('x-forwarded-for');
+      const ip = (
+        forwardedFor
+          ? forwardedFor.split(',')[0].trim()
+          : request.headers.get('x-real-ip') || 'unknown'
+      ).substring(0, 45);
 
-    const rateLimitCount = await checkRateLimit(ip, 'newsletter');
-    if (rateLimitCount >= RATE_LIMIT_MAX) {
-      return NextResponse.json(
-        { success: false, message: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      );
+      const rateLimitCount = await checkRateLimit(ip, 'newsletter');
+      if (rateLimitCount >= RATE_LIMIT_MAX) {
+        return NextResponse.json(
+          { success: false, message: 'Too many requests. Please try again later.' },
+          { status: 429 }
+        );
+      }
+      await recordRateLimit(ip, 'newsletter');
+    } catch (rlError) {
+      console.warn('Rate limiting non-fatal error:', rlError);
     }
-    await recordRateLimit(ip, 'newsletter');
 
     // ── Send welcome email ────────────────────────────────────────────────────
     const emailResult = await sendWelcomeEmail({

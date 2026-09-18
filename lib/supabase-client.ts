@@ -132,33 +132,47 @@ export async function getTicketCountByEvent(eventId: string) {
 
 // Rate limiting
 export async function checkRateLimit(ip: string, eventId: string) {
-  ensureSupabase()
-  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-
-  const { count, error } = await supabase!
-    .from('marketing_rate_limits')
-    .select('*', { count: 'exact', head: true })
-    .eq('ip_address', ip)
-    .eq('event_id', eventId)
-    .gt('created_at', oneHourAgo)
-
-  if (error) {
-    console.error('[v0] Error checking rate limit:', error)
-    throw error
+  if (!supabase) {
+    console.warn('[Supabase] Client not configured. Skipping rate limit check.')
+    return 0
   }
+  try {
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
 
-  return count || 0
+    const { count, error } = await supabase
+      .from('marketing_rate_limits')
+      .select('*', { count: 'exact', head: true })
+      .eq('ip_address', ip)
+      .eq('event_id', eventId)
+      .gt('created_at', oneHourAgo)
+
+    if (error) {
+      console.error('[v0] Error checking rate limit:', error)
+      return 0
+    }
+
+    return count || 0
+  } catch (err) {
+    console.error('[v0] Exception checking rate limit:', err)
+    return 0
+  }
 }
 
 export async function recordRateLimit(ip: string, eventId: string) {
-  ensureSupabase()
-  const { error } = await supabase!
-    .from('marketing_rate_limits')
-    .insert([{ ip_address: ip, event_id: eventId }])
+  if (!supabase) {
+    console.warn('[Supabase] Client not configured. Skipping rate limit record.')
+    return
+  }
+  try {
+    const { error } = await supabase
+      .from('marketing_rate_limits')
+      .insert([{ ip_address: ip, event_id: eventId }])
 
-  if (error) {
-    console.error('[v0] Error recording rate limit:', error)
-    throw error
+    if (error) {
+      console.error('[v0] Error recording rate limit:', error)
+    }
+  } catch (err) {
+    console.error('[v0] Exception recording rate limit:', err)
   }
 }
 
