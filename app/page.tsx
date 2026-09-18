@@ -163,7 +163,7 @@ const YrdlyHomepage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
               icon={<Calendar size={24} />}
-              title="Local Owambe & Events"
+              title="Discover Events"
               description="Never miss a party, estate meeting, or community gathering. See what's happening this weekend and RSVP with one tap."
               image="/owambe.jpeg"
             />
