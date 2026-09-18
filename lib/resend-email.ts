@@ -214,20 +214,31 @@ export async function sendTicketEmail({
   }
 }
 
+let cachedAudienceId = process.env.RESEND_AUDIENCE_ID;
+
 export async function addAttendeeContact({ email, name, eventName }: { email: string, name?: string, eventName: string }) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
-    const audienceId = process.env.RESEND_AUDIENCE_ID;
     
-    if (audienceId) {
+    let targetAudienceId = process.env.RESEND_AUDIENCE_ID || cachedAudienceId;
+
+    if (!targetAudienceId) {
+      const audiences = await resend.audiences.list();
+      if (audiences.data?.data && audiences.data.data.length > 0) {
+        targetAudienceId = audiences.data.data[0].id;
+        cachedAudienceId = targetAudienceId;
+      }
+    }
+    
+    if (targetAudienceId) {
       await resend.contacts.create({
         email,
         firstName: name,
-        audienceId
+        audienceId: targetAudienceId
       });
-      console.log('Added contact to Resend audience', email);
+      console.log('Added contact to Resend audience', email, 'Audience ID:', targetAudienceId);
     } else {
-      console.log('Skipping contact addition: RESEND_AUDIENCE_ID not defined');
+      console.warn('Skipping contact addition: No Resend audience ID found');
     }
     return { success: true };
   } catch (error) {
