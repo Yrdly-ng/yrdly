@@ -12,6 +12,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PwaInstallSection } from '@/components/PwaInstallSection';
 
+import { NewsletterPopup } from '@/components/newsletter-popup';
+
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
@@ -81,20 +83,41 @@ const ProductStep: React.FC<ProductStepProps> = ({ number, title, description, i
 
 const YrdlyHomepage: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'already_subscribed'>('idle');
+  const [subscribedEmails, setSubscribedEmails] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('yrdly_subscribed_emails');
+      if (saved) {
+        setSubscribedEmails(JSON.parse(saved));
+      }
+    } catch {}
+  }, []);
 
   const handleSubscribe = async () => {
-    if (!email || newsletterStatus === 'loading') return;
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail || newsletterStatus === 'loading') return;
+
+    if (subscribedEmails.includes(trimmedEmail)) {
+      setNewsletterStatus('already_subscribed');
+      return;
+    }
+
     setNewsletterStatus('loading');
     try {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: trimmedEmail }),
       });
       if (res.ok) {
         setNewsletterStatus('success');
-        setEmail('');
+        const updated = [...subscribedEmails, trimmedEmail];
+        setSubscribedEmails(updated);
+        try {
+          localStorage.setItem('yrdly_subscribed_emails', JSON.stringify(updated));
+        } catch {}
       } else {
         setNewsletterStatus('error');
       }
@@ -129,6 +152,7 @@ const YrdlyHomepage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header currentPage="home" />
+      <NewsletterPopup />
 
       {/* Hero Section */}
       <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
@@ -239,23 +263,41 @@ const YrdlyHomepage: React.FC = () => {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (newsletterStatus === 'error' || newsletterStatus === 'already_subscribed') {
+                    setNewsletterStatus('idle');
+                  }
+                }}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
-                className="flex-1 border-border"
+                className="flex-1 border-border bg-background"
                 disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
               />
               <Button
                 onClick={handleSubscribe}
                 disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                className="bg-[#82DB7E] hover:bg-[#82DB7E]/90 text-background font-semibold px-8"
+                className={
+                  newsletterStatus === 'success' || newsletterStatus === 'already_subscribed'
+                    ? "bg-[#166534] hover:bg-[#166534] text-white font-semibold px-8"
+                    : "bg-[#82DB7E] hover:bg-[#82DB7E]/90 text-background font-semibold px-8"
+                }
               >
-                {newsletterStatus === 'loading' ? 'Subscribing…' : newsletterStatus === 'success' ? '✓ Subscribed!' : 'Subscribe'}
+                {newsletterStatus === 'loading'
+                  ? 'Subscribing…'
+                  : newsletterStatus === 'success'
+                  ? '✓ Subscribed!'
+                  : newsletterStatus === 'already_subscribed'
+                  ? '✓ Subscribed!'
+                  : 'Subscribe'}
               </Button>
             </div>
+            {newsletterStatus === 'already_subscribed' && (
+              <p className="text-xs text-amber-600 font-medium">This email is already subscribed to the newsletter.</p>
+            )}
             {newsletterStatus === 'error' && (
               <p className="text-xs text-red-500">Something went wrong. Please try again.</p>
             )}
-            {newsletterStatus !== 'error' && (
+            {newsletterStatus !== 'error' && newsletterStatus !== 'already_subscribed' && (
               <p className="text-xs text-muted-foreground">
                 We respect your privacy. Unsubscribe anytime.
               </p>

@@ -104,7 +104,7 @@ export default function ContactPage() {
               {[
                 { icon: "✉️", label: "Email", val: "support@yrdly.ng", href: "mailto:support@yrdly.ng" },
                 { icon: "📱", label: "Phone", val: "09166368783", href: "tel:09166368783" },
-                { icon: "📸", label: "Instagram", val: "@yardly.ng", href: "https://instagram.com/yardly.ng" },
+                { icon: "📸", label: "Instagram", val: "Yrdly.ng", href: "https://www.instagram.com/yrdly.ng?stkn=MTEzbzYzZ2J3dWR4dA==" },
               ].map((c) => (
                 <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" style={{ display: "flex", alignItems: "center", gap: "1rem", textDecoration: "none" }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: "var(--pill-bg)", border: "1px solid var(--border-accent)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }}>{c.icon}</div>

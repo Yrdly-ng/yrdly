@@ -72,7 +72,7 @@ export default function MobileNav() {
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 ml-4">Connect</span>
               <div className="flex gap-4 px-2">
                 {[
-                  { icon: <Instagram className="w-5 h-5" />, href: "https://www.instagram.com/yardly.ng" },
+                  { icon: <Instagram className="w-5 h-5" />, href: "https://www.instagram.com/yrdly.ng?stkn=MTEzbzYzZ2J3dWR4dA==" },
                   { icon: <Twitter className="w-5 h-5" />, href: "https://x.com/yrdlyapp" },
                   { icon: <MessageCircle className="w-5 h-5" />, href: "mailto:support@yrdly.ng" },
                 ].map((social, i) => (

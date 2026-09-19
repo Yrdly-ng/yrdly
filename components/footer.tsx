@@ -60,12 +60,12 @@ export default function Footer() {
             </p>
             <div style={{ display: "flex", gap: "0.625rem", flexWrap: "wrap" }}>
               <a
-                href="https://instagram.com/yardly.ng"
+                href="https://www.instagram.com/yrdly.ng?stkn=MTEzbzYzZ2J3dWR4dA=="
                 target="_blank"
                 rel="noreferrer"
                 className="pill"
               >
-                📸 @yardly.ng
+                📸 Yrdly.ng
               </a>
               <a href="mailto:support@yrdly.ng" className="pill">
                 ✉️ Email
