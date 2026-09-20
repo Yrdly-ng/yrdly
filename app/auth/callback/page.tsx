@@ -53,7 +53,7 @@ function CallbackHandler() {
               : 0;
             const isNewUser = Date.now() - createdAt < 30_000;
             window.location.href = isNewUser
-              ? `${APP_URL}/onboarding`
+              ? `${APP_URL}/onboarding/profile`
               : `${APP_URL}/home`;
           }, 1000);
           subscription.unsubscribe();

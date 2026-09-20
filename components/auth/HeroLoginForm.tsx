@@ -84,7 +84,7 @@ export function HeroLoginForm() {
           return;
         }
 
-        window.location.href = `${APP_URL}/onboarding`;
+        window.location.href = `${APP_URL}/onboarding/profile`;
       } else {
         const { error: signInError } = await supabaseAuthClient.auth.signInWithPassword({
           email,
