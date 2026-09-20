@@ -72,7 +72,7 @@ export function HeroLoginForm() {
 
     try {
       if (isSignUp) {
-        const { error: signUpError } = await supabaseAuthClient.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabaseAuthClient.auth.signUp({
           email,
           password,
           options: { data: { full_name: name } },
@@ -84,7 +84,11 @@ export function HeroLoginForm() {
           return;
         }
 
-        window.location.href = `${APP_URL}/onboarding/profile`;
+        if (signUpData?.session) {
+          window.location.href = `${APP_URL}/onboarding/profile`;
+        } else {
+          window.location.href = `${APP_URL}/onboarding/verify-email?email=${encodeURIComponent(email)}`;
+        }
       } else {
         const { error: signInError } = await supabaseAuthClient.auth.signInWithPassword({
           email,
