@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import Cookies from 'js-cookie'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const cookieDomain = process.env.NEXT_PUBLIC_COOKIE_DOMAIN || '.yrdly.ng'
 
 // Custom cookie-based storage adapter so the auth session cookie is set
