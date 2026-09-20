@@ -32,6 +32,7 @@ export const supabaseAuthClient =
   supabaseUrl && supabaseAnonKey
     ? createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
+          storageKey: 'sb-yoiyqxtpmxnrrbqqidcs-auth-token',
           autoRefreshToken: true,
           persistSession: true,
           detectSessionInUrl: true,
