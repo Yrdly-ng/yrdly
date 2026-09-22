@@ -3,10 +3,11 @@
 import Link from "next/link";
 
 const PRODUCT_LINKS = [
+  { label: "Community Guides", href: "/blog" },
+  { label: "Help & FAQ", href: "/faq" },
   { label: "Features", href: "/learn-more" },
   { label: "Events", href: "/events" },
   { label: "Marketplace", href: "/marketplace" },
-  { label: "Learn More", href: "/learn-more" },
 ];
 
 const COMPANY_LINKS = [

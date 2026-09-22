@@ -16,8 +16,10 @@ export default function Header({ currentPage }: HeaderProps) {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Events", href: "/events" },
+    { label: "Marketplace", href: "/marketplace" },
+    { label: "Guides", href: "/blog" },
+    { label: "FAQ", href: "/faq" },
     { label: "About Us", href: "/about" },
-    { label: "Learn More", href: "/learn-more" },
     { label: "Contact", href: "/contact" },
   ];
 
