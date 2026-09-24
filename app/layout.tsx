@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   title: 'Yrdly - Your Neighborhood Network',
   description: 'Connect with your neighbors, share updates, and build a stronger community with Yrdly.',
   metadataBase: new URL('https://yrdly.ng'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     url: 'https://yrdly.ng',

@@ -5,6 +5,9 @@ import Footer from "@/components/footer";
 export const metadata = {
   title: "Frequently Asked Questions & Help Center - Yrdly",
   description: "Find comprehensive answers about Yrdly neighborhood verification, escrow payments, selling items, organizing local events, and safety guidelines.",
+  alternates: {
+    canonical: "/faq",
+  },
 };
 
 const FAQ_CATEGORIES = [

@@ -5,6 +5,9 @@ import Footer from "@/components/footer";
 export const metadata = {
   title: "Terms & Conditions - Yrdly",
   description: "The Terms and Conditions governing your use of the Yrdly web application.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 const P = { fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300 } as const;

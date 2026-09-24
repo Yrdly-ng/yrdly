@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/auth/', '/scanner/'],
+      disallow: ['/api/', '/auth/', '/scanner/', '/_next/'],
     },
     sitemap: 'https://yrdly.ng/sitemap.xml',
   };

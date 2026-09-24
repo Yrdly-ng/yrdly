@@ -13,6 +13,9 @@ const VALUES = [
 export const metadata = {
   title: "About Us - Yrdly",
   description: "We missed the spirit of the old neighbourhood. So we rebuilt it. Built for Nigerians, by Nigerians.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {

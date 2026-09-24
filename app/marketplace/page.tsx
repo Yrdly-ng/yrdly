@@ -105,6 +105,9 @@ const HOW = [
 export const metadata = {
   title: "Marketplace - Yrdly",
   description: "Buy and sell with verified neighbours on your street — fresh produce, trusted services, secondhand items and more.",
+  alternates: {
+    canonical: "/marketplace",
+  },
 };
 
 export default async function MarketplacePage() {
@@ -232,7 +235,7 @@ export default async function MarketplacePage() {
             <a href="https://app.yrdly.ng" target="_blank" rel="noreferrer" className="btn-outline" style={{ fontSize: "0.85rem" }}>See All Listings →</a>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
-            {displayListings.map((l, i) => (
+            {displayListings.map((l: any, i: number) => (
               <a key={l.id || i} href={l.id !== l.title ? `https://app.yrdly.ng/marketplace/${l.id}` : "https://app.yrdly.ng"} target="_blank" rel="noreferrer" className="redesign-card" style={{ overflow: "hidden", textDecoration: "none", display: "flex", flexDirection: "column" }}>
                 <div style={{ height: 160, overflow: "hidden", background: "var(--bg-raised)" }}>
                   <Image src={l.img} alt={l.title} width={400} height={300} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }} />

@@ -5,6 +5,9 @@ import Footer from "@/components/footer";
 export const metadata = {
   title: "Privacy Policy - Yrdly",
   description: "Comprehensive Privacy Policy detailing how Yrdly collects, uses, stores, and protects your personal information.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
 };
 
 const SECTIONS = [

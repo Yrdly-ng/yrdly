@@ -7,6 +7,9 @@ import { BLOG_ARTICLES } from "./articles-data";
 export const metadata = {
   title: "Community Guides & Blog - Yrdly",
   description: "Explore in-depth articles, security guides, estate management insights, and local commerce tips for Nigerian neighborhoods.",
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 export default function BlogIndexPage() {

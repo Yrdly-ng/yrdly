@@ -60,6 +60,9 @@ const STEPS = [
 export const metadata = {
   title: "Learn More - Yrdly",
   description: "A full breakdown of every Yrdly feature — feed, marketplace, business directory, events, messaging, and safety.",
+  alternates: {
+    canonical: "/learn-more",
+  },
 };
 
 export default function LearnMorePage() {
