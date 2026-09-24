@@ -93,7 +93,7 @@ export const PwaInstallSection: React.FC = () => {
             <span className="text-[#82DB7E] relative inline-block">
               Yrdly
               <svg viewBox="0 0 120 8" className="absolute left-0 -bottom-1.5 w-full h-2" preserveAspectRatio="none">
-                <path d="M2 6 Q30 1 60 5 Q90 9 118 4" stroke="#82DB7E" strokeWidth="2.5" fill="none" strokeLineCap="round" opacity="0.8" />
+                <path d="M2 6 Q30 1 60 5 Q90 9 118 4" stroke="#82DB7E" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.8" />
               </svg>
             </span>{' '}
             to Your Home Screen
