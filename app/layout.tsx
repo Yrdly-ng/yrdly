@@ -58,6 +58,20 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <head>
+        {/* ✅ Google Analytics Tag */}
+        <Script
+          async
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18468457055"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18468457055');
+          `}
+        </Script>
 
         {/* ✅ Google AdSense */}
         <Script
