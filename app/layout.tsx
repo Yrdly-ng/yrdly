@@ -73,6 +73,31 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* ✅ Google Ads Conversion Tracking (Page Load) */}
+        <Script id="google-conversion-pageview" strategy="afterInteractive">
+          {`
+            gtag('event', 'conversion', {'send_to': 'AW-18468457055/8KtMCNjnzYEdEN-UueZE'});
+          `}
+        </Script>
+
+        {/* ✅ Google Ads Conversion Tracking (Click) */}
+        <Script id="google-conversion-click" strategy="afterInteractive">
+          {`
+            window.gtag_report_conversion = function(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                  'send_to': 'AW-18468457055/8KtMCNjnzYEdEN-UueZE',
+                  'event_callback': callback
+              });
+              return false;
+            }
+          `}
+        </Script>
+
         {/* ✅ Google AdSense */}
         <Script
           async
