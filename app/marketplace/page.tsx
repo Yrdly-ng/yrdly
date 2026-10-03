@@ -6,8 +6,8 @@ import Footer from "@/components/footer";
 import { createClient } from "@supabase/supabase-js";
 
 function getSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "https://yoiyqxtpmxnrrbqqidcs.supabase.co";
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlvaXlxeHRwbXhucnJicXFpZGNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMDY5OTksImV4cCI6MjA3NTY4Mjk5OX0.xL4t7V9BiaOxtdGrYqJMBXKLtP6JTwdU2akNwPP8t-w";
   if (!supabaseUrl || !supabaseAnonKey) return null;
   return createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } });
 }
@@ -17,10 +17,10 @@ async function getLiveListings(supabase: any) {
     const { data, error } = await supabase
       .from('posts')
       .select('id, title, text, author_name, image_urls, price, category, sub_category, state, lga, ward')
-      .eq('category', 'For Sale')
+      .in('category', ['For Sale', 'Giveaway'])
       .eq('is_sold', false)
-      .order('timestamp', { ascending: false })
-      .limit(6);
+      .order('created_at', { ascending: false })
+      .limit(12);
       
     if (error || !data || data.length === 0) return null;
     return data;
@@ -34,7 +34,7 @@ async function getLiveCategories(supabase: any) {
     const { data, error } = await supabase
       .from('posts')
       .select('category, sub_category')
-      .eq('category', 'For Sale')
+      .in('category', ['For Sale', 'Giveaway'])
       .eq('is_sold', false)
       .limit(1000);
       
@@ -76,23 +76,14 @@ const CATEGORY_ICONS: Record<string, string> = {
 const DEFAULT_ICON = "🏷️";
 
 const CATEGORIES = [
-  { icon: "🥬", name: "Fresh Produce", count: 142 },
-  { icon: "🔧", name: "Home Services", count: 89 },
-  { icon: "👗", name: "Clothing & Fashion", count: 216 },
-  { icon: "📱", name: "Electronics", count: 74 },
-  { icon: "🍱", name: "Food & Catering", count: 183 },
-  { icon: "🛋️", name: "Furniture", count: 55 },
-  { icon: "💄", name: "Beauty & Wellness", count: 127 },
-  { icon: "📚", name: "Books & Education", count: 43 },
-];
-
-const LISTINGS = [
-  { title: "Fresh Garden Eggs & Tomatoes", seller: "Mama Chika", estate: "Bodija Estate, Ibadan", price: "₦2,500/basket", tag: "Fresh Produce", img: "/images/market.jpg" },
-  { title: "Professional Generator Repair", seller: "Tunde Electricals", estate: "GRA, Port Harcourt", price: "From ₦5,000", tag: "Home Services", img: "/images/trust.jpg" },
-  { title: "Ankara Fabric & Tailoring", seller: "Bisi Fabrics", estate: "Maitama, Abuja", price: "₦8,000/yard", tag: "Clothing", img: "/images/market-2.jpg" },
-  { title: "Home Catering — Parties & Events", seller: "Chef Kemi", estate: "Trans-Ekulu, Enugu", price: "From ₦35,000", tag: "Food", img: "/images/community-banner.jpg" },
-  { title: "Used iPhone 13 — Excellent Condition", seller: "Adekola O.", estate: "Asokoro, Abuja", price: "₦420,000", tag: "Electronics", img: "/images/hero-community.jpg" },
-  { title: "3-Seater Sofa — Moving Sale", seller: "Ngozi A.", estate: "Bompai, Kano", price: "₦75,000", tag: "Furniture", img: "/images/market.jpg" },
+  { icon: "🥬", name: "Fresh Produce", count: 0 },
+  { icon: "🔧", name: "Home Services", count: 0 },
+  { icon: "👗", name: "Clothing & Fashion", count: 0 },
+  { icon: "📱", name: "Electronics", count: 0 },
+  { icon: "🍱", name: "Food & Catering", count: 0 },
+  { icon: "🛋️", name: "Furniture", count: 0 },
+  { icon: "💄", name: "Beauty & Wellness", count: 0 },
+  { icon: "📚", name: "Books & Education", count: 0 },
 ];
 
 const HOW = [
@@ -124,7 +115,7 @@ export default async function MarketplacePage() {
       }))
     : CATEGORIES;
 
-  const displayListings = liveData ? liveData.map((post: any) => {
+  const displayListings = (liveData || []).map((post: any) => {
     const community = [post.ward || post.lga, post.state].filter(Boolean).join(', ');
     const formattedPrice = post.price 
       ? new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(post.price)
@@ -132,14 +123,14 @@ export default async function MarketplacePage() {
       
     return {
       title: post.title || post.text || 'Untitled',
-      seller: post.author_name || 'Anonymous',
+      seller: post.author_name || 'Verified Neighbour',
       community: community || 'Nigeria',
       price: formattedPrice,
       tag: post.sub_category || post.category || 'For Sale',
       img: post.image_urls?.[0] || '/images/market.jpg',
       id: post.id
     };
-  }) : LISTINGS.map(l => ({ ...l, community: l.estate, id: l.title }));
+  });
 
   return (
     <div style={{ background: "var(--bg)", color: "var(--fg)" }}>
