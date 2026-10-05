@@ -175,8 +175,8 @@ export default function AboutPage() {
           <h2 className="font-display" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 600, color: "var(--fg)", lineHeight: 1.2, marginBottom: "1rem" }}>
             Ready to join your yard?
           </h2>
-          <p style={{ fontSize: "0.95rem", lineHeight: 1.75, color: "var(--fg-muted)", fontWeight: 300, marginBottom: "2rem" }}>
-            Thousands of Nigerians are already connecting with their neighbours on Yrdly. Don&apos;t miss out on what&apos;s happening in your community.
+          <p style={{ fontSize: "0.85rem", lineHeight: 1.75, color: "var(--fg-muted)", fontWeight: 300, marginBottom: "2rem" }}>
+            Yrdly is operated by <strong>Yrdly Technologies Limited</strong> (RC: 9267059), registered in Oyo State, Nigeria. For business inquiries, partnerships, or support, visit our <Link href="/contact" style={{ color: "var(--green-text)", textDecoration: "underline" }}>Contact Page</Link>.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
             <a href="https://app.yrdly.ng" target="_blank" rel="noreferrer" className="btn-cta">Join Your Community</a>

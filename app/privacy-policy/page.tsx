@@ -114,19 +114,29 @@ const SECTIONS = [
     items: [],
   },
   {
+    id: "advertising-cookies",
+    title: "11. Advertising, Measurement & Cookies",
+    intro: "Our public marketing website (yrdly.ng) utilizes first-party cookies and third-party advertising services (such as Google Ads and Google AdSense) to deliver relevant promotions, measure ad performance, and analyze site traffic.",
+    items: [
+      ["Advertising & Conversion Tracking:", " Google uses advertising cookies and measurement scripts to serve ads based on prior visits to our website or other sites on the Internet. These tools enable Google and its partners to measure ad performance and display relevant advertisements."],
+      ["Managing & Opting Out:", " You can opt out of personalized advertising by visiting Google Ads Settings at https://adssettings.google.com. Alternatively, you can opt out of third-party cookies for personalized advertising by visiting https://aboutads.info."],
+      ["Google Advertising Policy:", " For complete details on how Google processes data collected through partner sites, visit https://policies.google.com/technologies/ads."]
+    ],
+  },
+  {
     id: "policy-updates",
-    title: "11. Updates to This Policy",
+    title: "12. Updates to This Policy",
     intro: "We may update this Privacy Policy periodically to reflect changes in our platform features, legal duties, or security practices. Material updates will be communicated via in-app notifications, email alerts, or by updating the \"Last updated\" timestamp on this page. Continued use of Yrdly after changes take effect constitutes your acceptance of the revised policy.",
     items: [],
   },
   {
     id: "contact-us",
-    title: "12. Contact Us & Data Officer",
+    title: "13. Contact Us & Data Officer",
     intro: "If you have questions, concerns, or requests regarding this Privacy Policy or your data privacy rights, please contact our Data Protection Team at:",
     items: [
-      ["Email Support:", " support@yrdly.ng or yardlyng234@gmail.com"],
+      ["Email Support:", " support@yrdly.ng"],
       ["Official Website:", " https://yrdly.ng"],
-      ["Data Controller:", " Yrdly Technologies Limited, Lagos, Nigeria"]
+      ["Data Controller:", " Yrdly Technologies Limited (RC: 9267059), Oyo State, Nigeria"]
     ],
   },
 ];
@@ -168,7 +178,7 @@ export default function PrivacyPolicyPage() {
           >
             Privacy Policy
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Last updated: September 20, 2026</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Last updated: October 5, 2026</p>
         </div>
       </section>
 

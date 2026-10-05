@@ -13,6 +13,8 @@ const PRODUCT_LINKS = [
 const COMPANY_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "Trust & Safety", href: "/trust-and-safety" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms & Conditions", href: "/terms" },
 ];
@@ -56,8 +58,7 @@ export default function Footer() {
                 marginBottom: "1.25rem",
               }}
             >
-              Your community &amp; street, connected. Built for Nigerians, by Nigerians.
-              Governed by the laws of the Federal Republic of Nigeria.
+              Your community &amp; street, connected. Operated by <strong>Yrdly Technologies Limited</strong> (RC: 9267059), Oyo State, Nigeria. Governed by the laws of the Federal Republic of Nigeria.
             </p>
             <div style={{ display: "flex", gap: "0.625rem", flexWrap: "wrap" }}>
               <a

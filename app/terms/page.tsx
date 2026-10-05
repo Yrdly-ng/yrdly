@@ -3,97 +3,14 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 
 export const metadata = {
-  title: "Terms & Conditions - Yrdly",
-  description: "The Terms and Conditions governing your use of the Yrdly web application.",
+  title: "Terms of Service - Yrdly",
+  description: "The Terms of Service governing your use of the Yrdly platform and services.",
   alternates: {
     canonical: "/terms",
   },
 };
 
 const P = { fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300 } as const;
-
-const SECTIONS: { title: string; paras?: string[]; list?: string[]; special?: "privacy" | "contact" }[] = [
-  {
-    title: "1. Eligibility",
-    paras: [
-      "You must be at least 18 years old to use Yrdly.",
-      "By accessing or using the App, you confirm that you meet this requirement.",
-    ],
-  },
-  {
-    title: "2. User Accounts",
-    paras: [
-      "You are responsible for maintaining the confidentiality of your login credentials.",
-      "You agree to provide accurate, complete, and up-to-date information when creating your profile.",
-      "You may not create false, misleading, or duplicate accounts.",
-    ],
-  },
-  {
-    title: "3. Verified Profiles",
-    paras: [
-      "Yrdly offers a verified profile status to enhance user safety.",
-      "You are strongly advised to interact primarily with verified profiles.",
-      "Verification involves additional checks as determined by Yrdly, but we do not guarantee the authenticity, conduct, or intentions of any verified profile.",
-    ],
-  },
-  {
-    title: "4. User Conduct",
-    paras: ["You agree not to:"],
-    list: [
-      "Engage in fraud, scams, or misrepresentation.",
-      "Use the App for any unlawful purpose.",
-      "Harass, abuse, or harm other users.",
-      "Post, transmit, or share offensive, misleading, or prohibited content.",
-    ],
-  },
-  {
-    title: "5. Fraud and Disputes",
-    paras: ["Yrdly is not liable for any fraudulent activity, scams, or losses suffered by users.", "If you believe you have been defrauded:"],
-    list: [
-      "Contact your local law enforcement agency (e.g., police or relevant authority) immediately.",
-      "Upon request by law enforcement, Yrdly may provide relevant user information or communication logs, subject to applicable privacy laws.",
-    ],
-  },
-  {
-    title: "6. Disclaimers",
-    paras: [
-      "The App is provided \u201cas is\u201d and \u201cas available.\u201d",
-      "We make no guarantees regarding the accuracy or reliability of user profiles.",
-      "We do not screen all users and cannot guarantee their behavior or intentions.",
-    ],
-  },
-  {
-    title: "7. Limitation of Liability",
-    paras: ["To the maximum extent permitted by law:"],
-    list: [
-      "Yrdly is not liable for any indirect, incidental, special, or consequential damages.",
-      "Yrdly is not responsible for interactions between users or for any harm resulting from such interactions.",
-      "Our total liability for any claim relating to the App shall not exceed the amount you have paid us, if any, in the twelve (12) months prior to the claim.",
-    ],
-  },
-  { title: "8. Privacy", special: "privacy" },
-  {
-    title: "9. Termination",
-    paras: [
-      "We reserve the right to suspend or terminate your account if you violate these Terms or engage in conduct harmful to the community or platform.",
-    ],
-  },
-  {
-    title: "10. Modifications",
-    paras: [
-      "We may update these Terms from time to time.",
-      "Changes will be communicated via email or in-app notifications.",
-      "Continued use of the App after updates constitutes acceptance of the revised Terms.",
-    ],
-  },
-  {
-    title: "11. Governing Law",
-    paras: [
-      "These Terms shall be governed by and construed in accordance with the laws of Nigeria, without regard to conflict of law principles.",
-    ],
-  },
-  { title: "12. Contact Us", special: "contact" },
-];
 
 export default function TermsPage() {
   return (
@@ -130,9 +47,9 @@ export default function TermsPage() {
               marginBottom: "0.75rem",
             }}
           >
-            Terms &amp; Conditions
+            Terms of Service
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Yrdly — Your Neighborhood Network</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Last updated: October 5, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
         </div>
       </section>
 
@@ -142,70 +59,99 @@ export default function TermsPage() {
           className="redesign-card"
           style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem", background: "var(--bg-card)" }}
         >
-          <p style={{ ...P, marginBottom: "0.75rem" }}>
-            Welcome to Yrdly. These Terms and Conditions (&ldquo;Terms&rdquo;) govern your use of the Yrdly web application
-            (the &ldquo;App&rdquo;). By creating an account or using the App, you agree to be legally bound by these Terms.
+          <p style={{ ...P, marginBottom: "1.5rem" }}>
+            These Terms of Service (&ldquo;Terms&rdquo;) constitute a legally binding agreement between you and <strong>Yrdly Technologies Limited</strong> (&ldquo;Yrdly&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;), a company incorporated in Nigeria with RC Number 9267059. These Terms govern your access to and use of the Yrdly website (yrdly.ng), mobile applications (app.yrdly.ng), and related tools (collectively, the &ldquo;Platform&rdquo;).
           </p>
-          <p style={{ ...P, marginBottom: "2.5rem" }}>Please read them carefully before using the App.</p>
+          <p style={{ ...P, marginBottom: "2.5rem" }}>
+            By creating an account, browsing listings, or using any feature on Yrdly, you agree to be bound by these Terms and our Privacy Policy. If you do not agree, you must immediately cease accessing the Platform.
+          </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-            {SECTIONS.map((s) => (
-              <div key={s.title}>
-                <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                  {s.title}
-                </h2>
-                {s.special === "privacy" && (
-                  <>
-                    <p style={P}>
-                      Your information will be collected, used, and stored in accordance with our{" "}
-                      <Link href="/privacy-policy" style={{ color: "var(--green-text)", textDecoration: "underline" }}>
-                        Privacy Policy
-                      </Link>
-                      .
-                    </p>
-                    <p style={{ ...P, marginTop: "0.5rem" }}>
-                      By using the App, you consent to the collection and use of your data as described in that policy.
-                    </p>
-                  </>
-                )}
-                {s.special === "contact" && (
-                  <>
-                    <p style={P}>If you have any questions or need assistance, please contact us at:</p>
-                    <p style={{ ...P, marginTop: "0.5rem" }}>
-                      Email:{" "}
-                      <a href="mailto:support@yrdly.ng" style={{ color: "var(--green-text)", textDecoration: "underline" }}>
-                        support@yrdly.ng
-                      </a>
-                    </p>
-                    <p style={{ ...P, marginTop: "0.5rem" }}>
-                      Support:{" "}
-                      <a href="mailto:support@yrdly.ng" style={{ color: "var(--green-text)", textDecoration: "underline" }}>
-                        support@yrdly.ng
-                      </a>
-                    </p>
-                  </>
-                )}
-                {s.paras?.map((p, i) => (
-                  <p key={i} style={{ ...P, marginTop: i === 0 ? 0 : "0.5rem" }}>
-                    {p}
-                  </p>
-                ))}
-                {s.list && (
-                  <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "0.5rem" }}>
-                    {s.list.map((li, i) => (
-                      <li key={i} style={P}>
-                        {li}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                1. Acceptance &amp; Eligibility
+              </h2>
+              <p style={P}>You must be at least 18 years old or the legal age of majority in your jurisdiction to register an account on Yrdly. By registering, you warrant that you have full legal capacity to enter into a binding agreement under the laws of the Federal Republic of Nigeria.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                2. Account Registration &amp; Security
+              </h2>
+              <p style={P}>You are responsible for maintaining the confidentiality of your account credentials. You agree to provide accurate, current, and complete profile information during registration. Creating fake profiles, impersonating neighbours, or operating duplicate accounts is strictly prohibited and will result in immediate account suspension.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                3. Marketplace &amp; Escrow Rules
+              </h2>
+              <p style={P}>Yrdly provides a peer-to-peer neighborhood marketplace connecting local buyers and sellers. When transacting through our integrated payment features:</p>
+              {/* LAWYER REVIEW: escrow holder wording */}
+              <p style={{ ...P, marginTop: "0.5rem" }}>
+                Payments for marketplace purchases are processed through our payment partner, Payluk, and held in escrow until the buyer confirms the transaction.
+              </p>
+              <p style={{ ...P, marginTop: "0.5rem" }}>
+                When you buy an item using escrow, your payment is held securely until you meet the seller and verify the item is in the described condition. Once you inspect and approve the item in the app, funds are released to the seller. If you inspect an item and find it significantly misrepresented, you must file a dispute before releasing funds.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                4. Prohibited Conduct &amp; Content Standards
+              </h2>
+              <p style={P}>Users are strictly forbidden from engaging in the following conduct on the Platform:</p>
+              <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "0.5rem" }}>
+                <li style={P}>Posting stolen, illegal, counterfeit, or prohibited goods or services.</li>
+                <li style={P}>Attempting financial fraud, advance-fee scams, or misrepresenting identity.</li>
+                <li style={P}>Harassing, threatening, or defaming neighbours, or posting hateful content.</li>
+                <li style={P}>Scraping data or attempting unauthorized access to server infrastructure.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                5. User Content &amp; Intellectual Property
+              </h2>
+              <p style={P}>You retain ownership of photos, listings, text, and media you upload to Yrdly. By uploading content, you grant Yrdly a non-exclusive, worldwide, royalty-free license to display and distribute that content to operate and promote the Platform. Yrdly owns all software, logos, trademarks, and design systems associated with the Platform.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                6. Limitation of Liability
+              </h2>
+              <p style={P}>To the maximum extent permitted by applicable law, Yrdly Technologies Limited, its directors, employees, and agents shall not be liable for any indirect, incidental, special, or consequential damages resulting from user interactions, off-platform transactions, or unverified claims. All services are provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                7. Dispute Resolution &amp; Governing Law
+              </h2>
+              {/* LAWYER REVIEW: dispute resolution clause */}
+              <p style={P}>These Terms are governed by the laws of the Federal Republic of Nigeria. If a dispute arises, please contact support@yrdly.ng so we can try to resolve it in good faith.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                8. Account Termination &amp; Policy Changes
+              </h2>
+              <p style={P}>We reserve the right to suspend or terminate accounts that violate these Terms or threaten community safety. We may update these Terms periodically, notifying users via email or site banner. Continued platform use following updates constitutes acceptance of the revised Terms.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                9. Contact &amp; Legal Notices
+              </h2>
+              <p style={P}>For legal notices or questions regarding these Terms, contact us at:</p>
+              <p style={{ ...P, marginTop: "0.5rem" }}>
+                <strong>Yrdly Technologies Limited</strong> (RC: 9267059)<br />
+                Oyo State, Nigeria<br />
+                Email: <a href="mailto:support@yrdly.ng" style={{ color: "var(--green-text)", textDecoration: "underline" }}>support@yrdly.ng</a>
+              </p>
+            </div>
           </div>
 
           <p style={{ ...P, marginTop: "2.5rem", textAlign: "center", fontSize: "0.85rem" }}>
-            By clicking &ldquo;Agree&rdquo; or creating an account, you acknowledge that you have read, understood, and agree
-            to be bound by these Terms and Conditions.
+            By creating an account or using Yrdly, you acknowledge that you have read, understood, and agreed to these Terms of Service.
           </p>
         </div>
       </section>

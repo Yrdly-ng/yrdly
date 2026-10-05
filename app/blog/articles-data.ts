@@ -31,8 +31,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     readTime: "6 min read",
     publishedAt: "September 20, 2026",
     author: {
-      name: "Oluwaseun Adewale",
-      role: "Head of Product & Security, Yrdly",
+      name: "Victor Salami & Boluwatife lasisi",
+      role: "Founder & Product Lead",
       avatar: "/images/hero-community.jpg"
     },
     coverImage: "/images/trust.jpg",
@@ -77,8 +77,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     readTime: "7 min read",
     publishedAt: "September 18, 2026",
     author: {
-      name: "Kemi Adeleke",
-      role: "Community Growth Manager, Yrdly",
+      name: "Yrdly Team",
+      role: "Editorial Team",
       avatar: "/images/market-2.jpg"
     },
     coverImage: "/images/community-banner.jpg",
@@ -119,8 +119,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     readTime: "5 min read",
     publishedAt: "September 15, 2026",
     author: {
-      name: "Tunde Bakare",
-      role: "Operations Lead, Yrdly",
+      name: "Yrdly Team",
+      role: "Editorial Team",
       avatar: "/images/hero-community.jpg"
     },
     coverImage: "/images/market.jpg",

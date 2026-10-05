@@ -96,7 +96,7 @@ export function NewsletterPopup() {
             Join Our Community Pulse
           </h2>
           <p className="text-sm text-muted-foreground">
-            Get weekly updates on what&apos;s happening in Lagos estates. No spam. Just community trust.
+            Get weekly updates on what&apos;s happening in your estate. No spam. Just community trust.
           </p>
         </div>
 

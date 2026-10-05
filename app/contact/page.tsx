@@ -126,8 +126,9 @@ export default function ContactPage() {
 
             <div style={{ marginTop: "1.5rem", padding: "1.75rem", borderRadius: 14, border: "1px solid var(--border-accent)", background: "var(--pill-bg)" }}>
               <div style={{ fontSize: "1.5rem", marginBottom: "0.75rem" }}>📍</div>
-              <h3 className="font-display" style={{ fontSize: "1rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.5rem" }}>Office</h3>
+              <h3 className="font-display" style={{ fontSize: "1rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.5rem" }}>Registered Office</h3>
               <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: "var(--fg-muted)", fontWeight: 300 }}>
+                Yrdly Technologies Limited (RC: 9267059)<br />
                 Oyo State, Nigeria.<br />
                 Governed by the laws of the Federal Republic of Nigeria.
               </p>

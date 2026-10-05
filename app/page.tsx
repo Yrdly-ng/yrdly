@@ -256,7 +256,7 @@ const YrdlyHomepage: React.FC = () => {
               Join Our Community Pulse
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Get weekly updates on what's happening in Lagos estates. No spam. Just community trust.
+              Get weekly updates on what's happening in your estate. No spam. Just community trust.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <Input
