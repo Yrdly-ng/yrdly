@@ -92,7 +92,6 @@ The following claims are **UNVERIFIED** in code and MUST BE OMITTED from all mar
 - End-to-end encrypted messaging.
 - Guaranteed 24-hour response time for reports.
 - Government ID / identity verification for general profiles.
-- Group chats for community committees.
 - Absolute claims such as "100% verified", "every member is verified", or "verified profiles". (Account lookup is strictly Payout Bank Account-Name Lookup).
 
 ---

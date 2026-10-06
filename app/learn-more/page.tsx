@@ -32,7 +32,7 @@ const FEATURES = [
     icon: "💬",
     title: "Direct Messaging",
     body: "Message any verified neighbour directly. Negotiate a price, ask about an event, or just say hello. Private, secure, and only available to verified members.",
-    details: ["End-to-end encrypted DMs", "Share listings in chat", "Group chats for community committees", "Read receipts and media sharing"],
+    details: ["End-to-end encrypted DMs", "Share listings in chat", "Read receipts and media sharing"],
   },
   {
     icon: "🛡️",
