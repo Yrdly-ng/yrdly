@@ -1,181 +1,131 @@
 import Link from "next/link";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-
 export const metadata = {
-  title: "Frequently Asked Questions & Help Center - Yrdly",
-  description: "Find comprehensive answers about Yrdly neighborhood verification, escrow payments, selling items, organizing local events, and safety guidelines.",
-  alternates: {
-    canonical: "/faq",
-  },
+  title: "A few questions — YRDLY",
+  description:
+    "Help with exploring YRDLY, your account, marketplace listings, events and community safety.",
+  alternates: { canonical: "/faq" },
 };
-
-const FAQ_CATEGORIES = [
+const groups = [
   {
-    category: "General & Account Verification",
-    icon: "🏡",
+    title: "Getting to know YRDLY",
     questions: [
-      {
-        q: "What is Yrdly and how does it work?",
-        a: "Yrdly is a hyperlocal community platform designed specifically for Nigerian neighborhoods and estates. It connects verified residents living in the same local area so they can stay updated via a neighborhood feed, buy and sell fresh produce, secondhand items, and local services in a trusted marketplace, and organize or attend local estate events."
-      },
-      {
-        q: "How does Yrdly verify that users actually live in a neighborhood?",
-        a: "Location verification is a core foundation of Yrdly. When signing up, device GPS and location technology verify your presence in a specific estate or ward. For sellers, event hosts, and high-value transactions, additional identity checks (such as government-issued ID or NIN verification) ensure every participant is accountable."
-      },
-      {
-        q: "Is Yrdly free to use?",
-        a: "Yes! Joining your neighborhood network, browsing local listings, posting items for sale, and interacting with neighbors on the community feed is 100% free. Standard transaction processing fees apply only when using secure escrow payments or purchasing paid event tickets."
-      }
-    ]
+      [
+        "What is YRDLY?",
+        "YRDLY is a neighbourhood discovery and community platform for Nigeria. Find local businesses, browse marketplace listings, discover events and connect with people through neighbourhood conversations and communities.",
+      ],
+      [
+        "Do I need an account to look around?",
+        "You can preview public listings, businesses and events on this website without logging in. For the full experience, including messaging, selling, joining communities and booking tickets, continue to app.yrdly.ng and sign in.",
+      ],
+      [
+        "Is YRDLY only for Lagos or private estates?",
+        "No. YRDLY is for neighbourhoods across Nigeria, in cities and towns of every size. In the app, choose your state and local area to make discovery more relevant to you.",
+      ],
+      [
+        "Is it free to join?",
+        "Creating an account and browsing YRDLY is free. Paid items, services and event tickets have their own prices. Review the fees and total shown at checkout before you pay.",
+      ],
+      [
+        "How do I set my location?",
+        "Follow the location steps when setting up your account in the app. You can also change the area you browse. Public previews on this website can be filtered by the states and local areas available in the current results.",
+      ],
+    ],
   },
   {
-    category: "Marketplace & Paystack / Payluk Escrow",
-    icon: "🛍️",
+    title: "Buying, selling & businesses",
     questions: [
-      {
-        q: "How does the Yrdly local marketplace protect buyers and sellers?",
-        a: "Unlike open social platforms where fraudulent sellers operate anonymously, Yrdly limits listing discovery to verified local community members. For physical goods and higher-value deals, Yrdly integrates licensed escrow payments. The buyer's funds are safely locked until the buyer inspects the item in person and confirms satisfactory delivery."
-      },
-      {
-        q: "What happens if a delivered item is not as described?",
-        a: "If an item is defective, misrepresented, or not delivered, the buyer can flag a dispute before confirming order completion. Funds remain securely in escrow while our support team reviews the order details and chat records to issue a prompt refund."
-      },
-      {
-        q: "How do sellers receive payouts after a successful sale?",
-        a: "Once the buyer confirms delivery via the app, escrow funds are instantly released into the seller's Yrdly wallet balance. Sellers can withdraw their earnings directly to any Nigerian commercial bank account 24/7."
-      }
-    ]
+      [
+        "How do I sell an item?",
+        "Open Marketplace in the app and choose Sell Item. Add clear photographs, a description and a price, then follow the publishing steps. You can manage the listing from your account.",
+      ],
+      [
+        "How do payments work?",
+        "Where supported, YRDLY uses escrow to hold payment while a transaction is completed. Read the checkout details, fees and delivery terms carefully. Keep your payment and transaction communication in the app.",
+      ],
+      [
+        "What if an item is not as described?",
+        "Use the transaction’s dispute option before confirming completion. Include clear evidence and follow the instructions in the app. Support will review the issue; the outcome depends on the transaction and the evidence.",
+      ],
+      [
+        "How do sellers receive their money?",
+        "Manage your payout details and available balance in the app. Follow the payout steps shown for your account. Availability, fees and processing times are shown in the relevant payment screens.",
+      ],
+      [
+        "Can I introduce my business?",
+        "Yes. Open the business hub in the app to create and manage your business profile, showcase what you offer and connect with people looking for your services.",
+      ],
+    ],
   },
   {
-    category: "Events & QR Ticket Verification",
-    icon: "🎟️",
+    title: "Events & community",
     questions: [
-      {
-        q: "How do I host an event in my estate or community?",
-        a: "Any verified resident or local organization can create an event on Yrdly. Simply set your event name, date, venue location, ticket prices (free or paid), and capacity. Yrdly generates custom event pages, manages ticket sales via Paystack, and provides event organizers with a built-in QR scanner tool."
-      },
-      {
-        q: "How do attendees receive and present their tickets?",
-        a: "Upon purchasing or reserving a spot, attendees receive a digital ticket containing a unique QR code. At the venue gate, event staff scan the code using the Yrdly Scanner to validate entry instantly."
-      }
-    ]
+      [
+        "How do I attend an event?",
+        "Browse the public event previews and open an event to see more. Continue in the app for current ticket availability and booking. Keep your digital ticket ready for check-in.",
+      ],
+      [
+        "Can I host an event?",
+        "Open Events in the app and choose to create an event. Add the date, place, description and ticket details, then follow the publishing steps. Manage attendance and check-in from your event tools.",
+      ],
+      [
+        "How do I report a problem?",
+        "Use the reporting tools on the relevant content in the app, or contact support@yrdly.ng. Include enough detail to help the team understand what happened.",
+      ],
+      [
+        "What are the community rules?",
+        "Be respectful, describe listings honestly and protect other people’s privacy. Fraud, harassment and misleading content have no place on YRDLY. Read our Trust & Safety page and the community guidelines in the app.",
+      ],
+    ],
   },
-  {
-    category: "Trust, Safety & Community Rules",
-    icon: "🛡️",
-    questions: [
-      {
-        q: "What community guidelines govern Yrdly users?",
-        a: "Yrdly maintains strict zero-tolerance policies against fraud, harassment, misleading listings, counterfeit items, and spam. All users must treat neighbors with respect. Violations result in immediate account suspension and blacklisting across the network."
-      },
-      {
-        q: "How do I report suspicious behavior or a bad listing?",
-        a: "You can tap the 'Report' button on any post, listing, or user profile, or message our support team directly. Reports are reviewed by our safety compliance team within 24 hours."
-      }
-    ]
-  }
 ];
-
 export default function FAQPage() {
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--fg)", display: "flex", flexDirection: "column" }}>
+    <>
       <Header />
-
-      {/* Hero */}
-      <section style={{ paddingTop: 96, paddingBottom: "4rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <Link
-            href="/"
-            style={{
-              fontSize: "0.82rem",
-              color: "var(--fg-muted)",
-              fontFamily: "var(--font-work-sans), sans-serif",
-              marginBottom: "1.5rem",
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              textDecoration: "none",
-              width: "fit-content",
-            }}
-          >
-            ← Back to Home
-          </Link>
-          <span className="pill" style={{ marginBottom: "1rem", display: "inline-flex" }}>Help Center</span>
-          <h1
-            className="font-display"
-            style={{
-              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-              fontWeight: 600,
-              color: "var(--fg)",
-              lineHeight: 1.15,
-              marginBottom: "1rem",
-            }}
-          >
-            Frequently Asked Questions
+      <main id="main-content">
+        <section className="page-intro wrap">
+          <p className="eyebrow">A FEW QUESTIONS FIRST</p>
+          <h1>
+            Make yourself
+            <br />
+            <em>at home.</em>
           </h1>
-          <p style={{ fontSize: "1rem", lineHeight: 1.75, color: "var(--fg-muted)", fontWeight: 300, maxWidth: 540 }}>
-            Everything you need to know about using Yrdly, buyer protection, escrow payments, verified accounts, and estate events.
+          <p>
+            A little help with looking around, joining in and finding your way.
           </p>
-        </div>
-      </section>
-
-      {/* FAQ Categories */}
-      <section style={{ padding: "4rem 1.5rem 6rem", flex: 1 }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", flexDirection: "column", gap: "3rem" }}>
-          {FAQ_CATEGORIES.map((cat, idx) => (
-            <div key={idx}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
-                <span style={{ fontSize: "1.75rem" }}>{cat.icon}</span>
-                <h2 className="font-display" style={{ fontSize: "1.4rem", fontWeight: 600, color: "var(--fg)" }}>
-                  {cat.category}
-                </h2>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {cat.questions.map((item, qIdx) => (
-                  <div
-                    key={qIdx}
-                    className="redesign-card"
-                    style={{ padding: "1.75rem", background: "var(--bg-card)", borderRadius: 14, border: "1px solid var(--border)" }}
-                  >
-                    <h3 className="font-display" style={{ fontSize: "1.05rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.6rem", lineHeight: 1.4 }}>
-                      {item.q}
-                    </h3>
-                    <p style={{ fontSize: "0.9rem", lineHeight: 1.75, color: "var(--fg-muted)", fontWeight: 300, margin: 0 }}>
-                      {item.a}
-                    </p>
-                  </div>
+        </section>
+        <div className="wrap faq-layout">
+          <nav aria-label="Help topics">
+            {groups.map((group, index) => (
+              <a key={group.title} href={`#help-${index}`}>
+                {group.title} ↓
+              </a>
+            ))}
+            <Link href="/contact" className="text-link">
+              Talk to us ↗
+            </Link>
+          </nav>
+          <div>
+            {groups.map((group, index) => (
+              <section id={`help-${index}`} key={group.title}>
+                <h2>{group.title}</h2>
+                {group.questions.map(([question, answer]) => (
+                  <details key={question}>
+                    <summary>
+                      {question}
+                      <span aria-hidden="true">+</span>
+                    </summary>
+                    <p>{answer}</p>
+                  </details>
                 ))}
-              </div>
-            </div>
-          ))}
-
-          {/* Need help CTA */}
-          <div
-            style={{
-              padding: "2.5rem",
-              borderRadius: 16,
-              background: "var(--section-alt)",
-              border: "1px solid var(--border-accent)",
-              textAlign: "center",
-              marginTop: "2rem",
-            }}
-          >
-            <h3 className="font-display" style={{ fontSize: "1.3rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.5rem" }}>
-              Still have questions?
-            </h3>
-            <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300, marginBottom: "1.5rem", maxWidth: 460, margin: "0 auto 1.5rem" }}>
-              Our support team is available 24/7 to assist with account verification, transaction queries, or community inquiries.
-            </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/contact" className="btn-cta">Contact Support</Link>
-              <Link href="/learn-more" className="btn-outline">Explore Platform Features</Link>
-            </div>
+              </section>
+            ))}
           </div>
         </div>
-      </section>
-
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }

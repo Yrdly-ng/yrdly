@@ -231,14 +231,15 @@ export async function addAttendeeContact({ email, name, eventName }: { email: st
     }
     
     if (targetAudienceId) {
-      await resend.contacts.create({
+      const result = await resend.contacts.create({
         email,
         firstName: name,
         audienceId: targetAudienceId
       });
+      if (result.error) throw new Error(result.error.message);
       console.log('Added contact to Resend audience', email, 'Audience ID:', targetAudienceId);
     } else {
-      console.warn('Skipping contact addition: No Resend audience ID found');
+      throw new Error('No Resend audience is configured');
     }
     return { success: true };
   } catch (error) {

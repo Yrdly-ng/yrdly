@@ -1,7 +1,9 @@
+import { brandedSupabaseUrl } from './supabase-url'
 import { createClient } from '@supabase/supabase-js'
 import Cookies from 'js-cookie'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+const configuredSupabaseUrl = process.env.NEXT_PUBLIC_APP_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseUrl = configuredSupabaseUrl ? brandedSupabaseUrl(configuredSupabaseUrl) : undefined
 const supabaseAnonKey = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const cookieDomain = process.env.NEXT_PUBLIC_COOKIE_DOMAIN || '.yrdly.ng'
 

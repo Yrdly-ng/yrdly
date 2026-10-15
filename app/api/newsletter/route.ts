@@ -42,6 +42,16 @@ export async function POST(request: NextRequest) {
       console.warn('Rate limiting non-fatal error:', rlError);
     }
 
+    // Confirm the subscription is stored before promising success or sending mail.
+    const contactResult = await addAttendeeContact({ email, name: undefined, eventName: 'Newsletter' });
+    if (!contactResult.success) {
+      console.error('Failed to save newsletter subscription:', contactResult.error);
+      return NextResponse.json(
+        { success: false, message: 'We couldn’t add you to the list. Please try again, or contact support@yrdly.ng.' },
+        { status: 503 }
+      );
+    }
+
     // ── Send welcome email ────────────────────────────────────────────────────
     const emailResult = await sendWelcomeEmail({
       email,
@@ -53,13 +63,12 @@ export async function POST(request: NextRequest) {
       console.error('Failed to send welcome email:', emailResult.error);
     }
 
-    // ── Persist contact to Resend audience ───────────────────────────────────
-    await addAttendeeContact({ email, name: undefined, eventName: 'Newsletter' });
-
     return NextResponse.json(
       {
         success: true,
-        message: 'Successfully subscribed to newsletter! Check your email for a welcome message.',
+        message: emailResult.success
+          ? 'You’re on the list. Look out for a welcome email from YRDLY.'
+          : 'You’re on the list. Your welcome email is delayed, but your subscription is saved.',
       },
       { status: 200 }
     );

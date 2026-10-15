@@ -40,9 +40,10 @@ export default async function BlogArticlePage({ params }: Props) {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--fg)", display: "flex", flexDirection: "column" }}>
       <Header />
+      <main id="main-content" className="legacy-content">
 
       {/* Header Band */}
-      <section style={{ paddingTop: 96, paddingBottom: "3.5rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
+      <section style={{ paddingTop: 55, paddingBottom: "3.5rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <Link
             href="/blog"
@@ -104,7 +105,7 @@ export default async function BlogArticlePage({ params }: Props) {
                     {sec.heading}
                   </h2>
                   {sec.body.map((p, pIdx) => (
-                    <p key={pIdx} style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "var(--fg-muted)", fontWeight: 300, marginBottom: "1rem" }}>
+                    <p key={pIdx} style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "var(--fg-muted)", fontWeight: 400, marginBottom: "1rem" }}>
                       {p}
                     </p>
                   ))}
@@ -123,7 +124,7 @@ export default async function BlogArticlePage({ params }: Props) {
               <h3 className="font-display" style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
                 Summary
               </h3>
-              <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300 }}>
+              <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400 }}>
                 {article.content.conclusion}
               </p>
             </div>
@@ -138,6 +139,7 @@ export default async function BlogArticlePage({ params }: Props) {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

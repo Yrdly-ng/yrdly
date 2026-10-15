@@ -1,244 +1,128 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { appLink } from "@/lib/app-links";
 
-interface HeaderProps {
+const links = [
+  { label: "Discover", href: "/#discover" },
+  { label: "Marketplace", href: "/marketplace" },
+  { label: "Events", href: "/events" },
+  { label: "Businesses", href: "/businesses" },
+  { label: "Our story", href: "/about" },
+];
+
+export default function Header({
+  currentPage: _currentPage,
+}: {
   currentPage?: string;
-}
-
-export default function Header({ currentPage }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "Events", href: "/events" },
-    { label: "Marketplace", href: "/marketplace" },
-    { label: "Guides", href: "/blog" },
-    { label: "FAQ", href: "/faq" },
-    { label: "About Us", href: "/about" },
-    { label: "Contact", href: "/contact" },
-  ];
-
+}) {
+  const [open, setOpen] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  const dark = resolvedTheme === "dark";
-
+  const pathname = usePathname();
+  const trigger = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && open) {
+        setOpen(false);
+        trigger.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [open]);
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        background: "var(--nav-bg)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid var(--border)",
-        transition: "background 0.3s",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1152,
-          margin: "0 auto",
-          padding: "0 1.5rem",
-          height: 64,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1.5rem",
-        }}
-      >
-        {/* Logo */}
-        <Link
-          href="/"
-          onClick={() => setMobileMenuOpen(false)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            flexShrink: 0,
-            textDecoration: "none",
-          }}
-        >
-          <img
-            src="/logo.png"
-            alt="Yrdly Logo"
-            className="h-16 w-auto drop-shadow-xl hover:scale-125 transition-transform"
-          />
+    <header className="site-header">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <div className="site-nav wrap">
+        <Link href="/" className="brand" aria-label="YRDLY home">
+          <img src="/logo.png" width="42" height="42" alt="" />
+          <span>
+            yrdly<span className="brand-period">.</span>
+          </span>
         </Link>
-
-        {/* Desktop nav */}
-        <div
-          style={{
-            display: "none",
-            alignItems: "center",
-            gap: "1.75rem",
-            flex: 1,
-            justifyContent: "center",
-          }}
-          className="desk-nav"
-        >
-          {navLinks.map((l) => (
+        <nav className="primary-nav" aria-label="Main navigation">
+          {links.map((link) => (
             <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                textDecoration: "none",
-                fontSize: "0.875rem",
-                fontWeight: currentPage === l.href ? 600 : 500,
-                fontFamily: "var(--font-work-sans), sans-serif",
-                color: currentPage === l.href ? "var(--green-text)" : "var(--fg-muted)",
-                transition: "color 0.15s",
-                padding: "0.25rem 0",
-                borderBottom: currentPage === l.href ? "1px var(--green)" : "1px solid transparent",
-              }}
+              key={link.href}
+              href={link.href}
+              aria-current={pathname === link.href ? "page" : undefined}
             >
-              {l.label}
+              {link.label}
             </Link>
           ))}
-        </div>
-
-        {/* Right side: theme toggle + CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <ThemeToggle />
-          <a
-            href="https://app.yrdly.ng"
-            target="_blank"
-            rel="noreferrer"
-            className="btn-cta desk-cta"
-            style={{ fontSize: "0.82rem", padding: "0.5rem 1.2rem" }}
-          >
-            Open App
-          </a>
+        </nav>
+        <div className="nav-actions">
           <button
-            className="mob-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Menu"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg)", padding: 4 }}
+            className="theme-button"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+            aria-label="Toggle colour theme"
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              {mobileMenuOpen ? (
-                <>
-                  <line x1="4" y1="4" x2="16" y2="16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  <line x1="16" y1="4" x2="4" y2="16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </>
-              ) : (
-                <>
-                  <line x1="3" y1="5" x2="17" y2="5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  <line x1="3" y1="10" x2="17" y2="5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  <line x1="3" y1="15" x2="17" y2="15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </>
-              )}
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <circle
+                cx="12"
+                cy="12"
+                r="8"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" />
             </svg>
+          </button>
+          <Link href="/login" className="nav-login">
+            Log in
+          </Link>
+          <Link href="/signup" className="nav-signup">
+            Sign up <span aria-hidden="true">↗</span>
+          </Link>
+          <button
+            ref={trigger}
+            className="menu-button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? "Close" : "Menu"}{" "}
+            <span aria-hidden="true">{open ? "×" : "☰"}</span>
           </button>
         </div>
       </div>
-
-      {/* Mobile dropdown */}
-      {mobileMenuOpen && (
-        <div
-          style={{
-            borderTop: "1px var(--border)",
-            background: "var(--nav-bg)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            padding: "1rem 1.5rem 1.25rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.875rem",
-          }}
+      {open && (
+        <nav
+          id="mobile-menu"
+          className="mobile-menu"
+          aria-label="Mobile navigation"
         >
-          {navLinks.map((l) => (
+          {links.map((link) => (
             <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                textDecoration: "none",
-                fontSize: "0.9rem",
-                fontWeight: currentPage === l.href ? 600 : 400,
-                fontFamily: "var(--font-work-sans), sans-serif",
-                color: currentPage === l.href ? "var(--green-text)" : "var(--fg-muted)",
-                textAlign: "left",
-                padding: 0,
-              }}
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
             >
-              {l.label}
+              {link.label}
+              <span aria-hidden="true">↗</span>
             </Link>
           ))}
-          <a
-            href="https://app.yrdly.ng"
-            target="_blank"
-            rel="noreferrer"
-            className="btn-cta"
-            style={{ textAlign: "center", marginTop: 4 }}
-          >
-            Open App
+          <Link href="/blog">Journal</Link>
+          <Link href="/faq">Help & FAQ</Link>
+          <Link href="/contact">Contact</Link>
+          <button className="text-link" onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} aria-label="Toggle colour theme">Change colour theme</button>
+          <a href={appLink()} className="button button-primary">
+            Explore YRDLY ↗
           </a>
-        </div>
+        </nav>
       )}
-    </nav>
+    </header>
   );
-}
-
-function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  const dark = resolvedTheme === "dark";
-
-  return (
-    <button
-      onClick={() => setTheme(dark ? "light" : "dark")}
-      aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
-      style={{
-        position: "relative",
-        width: 44,
-        height: 24,
-        borderRadius: 9999,
-        border: "1px var(--border)",
-        background: "var(--bg-raised)",
-        cursor: "pointer",
-        outline: "none",
-        flexShrink: 0,
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: 3,
-          left: dark ? "calc(100% - 19px)" : 3,
-          width: 16,
-          height: 16,
-          borderRadius: "50%",
-          background: "var(--green)",
-          transition: "left 0.2s",
-        }}
-      />
-      <span
-        style={{
-          position: "absolute",
-          left: dark ? 5 : "auto",
-          right: dark ? "auto" : 5,
-          top: "50%",
-          transform: "translateY(-50%)",
-          fontSize: 9,
-          userSelect: "none",
-          lineHeight: 1,
-        }}
-        >
-          {mounted ? (dark ? "🌙" : "☀️") : ""}
-        </span>
-      </button>
-    );
 }

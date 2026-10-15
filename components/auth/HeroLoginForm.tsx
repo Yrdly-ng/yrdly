@@ -1,61 +1,73 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { supabaseAuthClient } from '@/lib/supabase-auth-client';
-import { Loader2, Mail, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { useState } from "react";
+import { supabaseAuthClient } from "@/lib/supabase-auth-client";
+import { Loader2, Mail, Eye, EyeOff, AlertTriangle } from "lucide-react";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.yrdly.ng';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.yrdly.ng";
 // The marketing site's own callback URL so the shared cookie is set correctly
-const OAUTH_REDIRECT = typeof window !== 'undefined'
-  ? `${window.location.origin}/auth/callback`
-  : 'https://yrdly.ng/auth/callback';
+const OAUTH_REDIRECT =
+  typeof window !== "undefined"
+    ? `${window.location.origin}/auth/callback`
+    : "https://yrdly.ng/auth/callback";
 
-export function HeroLoginForm() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+export function HeroLoginForm({
+  initialMode = "login",
+}: {
+  initialMode?: "login" | "signup";
+}) {
+  const [isSignUp, setIsSignUp] = useState(initialMode === "signup");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleGoogleSignIn = async () => {
-    if (process.env.NODE_ENV === 'development') console.log('Google Sign In clicked!');
+    if (process.env.NODE_ENV === "development")
+      console.log("Google Sign In clicked!");
     if (!supabaseAuthClient) {
-      setError('Authentication is not configured properly.');
+      setError("Authentication is not configured properly.");
       return;
     }
-    
+
     try {
       setGoogleLoading(true);
-      setError('');
-      if (process.env.NODE_ENV === 'development') console.log('Calling signInWithOAuth with redirect:', OAUTH_REDIRECT);
-      
-      const { data, error: oauthError } = await supabaseAuthClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: OAUTH_REDIRECT,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
+      setError("");
+      if (process.env.NODE_ENV === "development")
+        console.log("Calling signInWithOAuth with redirect:", OAUTH_REDIRECT);
+
+      const { data, error: oauthError } =
+        await supabaseAuthClient.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: OAUTH_REDIRECT,
+            queryParams: {
+              access_type: "offline",
+              prompt: "consent",
+            },
           },
-        },
-      });
-      
-      if (process.env.NODE_ENV === 'development') console.log('Result:', { data, oauthError });
-      
+        });
+
+      if (process.env.NODE_ENV === "development")
+        console.log("Result:", { data, oauthError });
+
       if (oauthError) {
         setError(oauthError.message);
         setGoogleLoading(false);
       } else if (data?.url) {
         // Fallback in case Supabase doesn't automatically redirect
-        if (process.env.NODE_ENV === 'development') console.log('Redirecting to Google...', data.url);
+        if (process.env.NODE_ENV === "development")
+          console.log("Redirecting to Google...", data.url);
         window.location.href = data.url;
       }
     } catch (err: any) {
-      console.error('Exception during Google Sign In:', err);
-      setError(err?.message || 'An unexpected error occurred during Google Sign In.');
+      console.error("Exception during Google Sign In:", err);
+      setError(
+        err?.message || "An unexpected error occurred during Google Sign In.",
+      );
       setGoogleLoading(false);
     }
   };
@@ -63,20 +75,21 @@ export function HeroLoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supabaseAuthClient) {
-      setError('Authentication is not configured properly.');
+      setError("Authentication is not configured properly.");
       return;
     }
 
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       if (isSignUp) {
-        const { data: signUpData, error: signUpError } = await supabaseAuthClient.auth.signUp({
-          email,
-          password,
-          options: { data: { full_name: name } },
-        });
+        const { data: signUpData, error: signUpError } =
+          await supabaseAuthClient.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: name } },
+          });
 
         if (signUpError) {
           setError(signUpError.message);
@@ -90,16 +103,21 @@ export function HeroLoginForm() {
           window.location.href = `${APP_URL}/onboarding/verify-email?email=${encodeURIComponent(email)}`;
         }
       } else {
-        const { error: signInError } = await supabaseAuthClient.auth.signInWithPassword({
-          email,
-          password,
-        });
+        const { error: signInError } =
+          await supabaseAuthClient.auth.signInWithPassword({
+            email,
+            password,
+          });
 
         if (signInError) {
           // Provide a helpful message for Google-only accounts
-          if (signInError.message?.toLowerCase().includes('invalid login credentials')) {
+          if (
+            signInError.message
+              ?.toLowerCase()
+              .includes("invalid login credentials")
+          ) {
             setError(
-              'Incorrect email or password. If you signed up with Google, use the "Continue with Google" button below.'
+              'Incorrect email or password. If you signed up with Google, use the "Continue with Google" button below.',
             );
           } else {
             setError(signInError.message);
@@ -111,24 +129,29 @@ export function HeroLoginForm() {
         window.location.href = `${APP_URL}/home`;
       }
     } catch (err) {
-      setError('An unexpected error occurred.');
+      setError("An unexpected error occurred.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-6 sm:p-8">
+    <div className="auth-form">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 font-sans">
-          {isSignUp ? 'Join your neighborhood' : 'Welcome back'}
+          {isSignUp ? "Join your neighborhood" : "Welcome back"}
         </h2>
         <p className="text-sm text-gray-500 mt-2 font-sans">
-          {isSignUp ? 'Connect with your neighbors today.' : 'Sign in to see what is happening locally.'}
+          {isSignUp
+            ? "Connect with your neighbors today."
+            : "Sign in to see what is happening locally."}
         </p>
       </div>
 
       {error && (
-        <div className="mb-5 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2 text-red-600 text-sm">
+        <div
+          role="alert"
+          className="mb-5 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2 text-red-600 text-sm"
+        >
           <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
@@ -163,7 +186,7 @@ export function HeroLoginForm() {
             />
           </svg>
         )}
-        {googleLoading ? 'Redirecting…' : 'Continue with Google'}
+        {googleLoading ? "Redirecting…" : "Continue with Google"}
       </button>
 
       {/* Divider */}
@@ -172,7 +195,9 @@ export function HeroLoginForm() {
           <div className="w-full border-t border-gray-200" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-gray-400 font-sans uppercase tracking-wider">or</span>
+          <span className="bg-white px-3 text-gray-400 font-sans uppercase tracking-wider">
+            or
+          </span>
         </div>
       </div>
 
@@ -183,6 +208,8 @@ export function HeroLoginForm() {
             <input
               type="text"
               placeholder="Full name"
+              aria-label="Full name"
+              autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required={isSignUp}
@@ -198,6 +225,8 @@ export function HeroLoginForm() {
           <input
             type="email"
             placeholder="Email address"
+            aria-label="Email address"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -206,15 +235,23 @@ export function HeroLoginForm() {
         </div>
 
         <div className="relative">
-          <div
+          <button
+            type="button"
+            aria-label={showPassword ? "Hide password" : "Show password"}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-          </div>
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
+            aria-label="Password"
+            autoComplete={isSignUp ? "new-password" : "current-password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -229,21 +266,31 @@ export function HeroLoginForm() {
         >
           {loading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
+          ) : isSignUp ? (
+            "Sign Up"
           ) : (
-            isSignUp ? 'Sign Up' : 'Log In'
+            "Log In"
           )}
         </button>
       </form>
 
+      {!isSignUp && (
+        <a href={`${APP_URL}/forgot-password`} className="text-link">
+          Forgot your password?
+        </a>
+      )}
       <div className="mt-6 pt-6 border-t border-gray-100 text-center font-sans">
         <p className="text-sm text-gray-600">
-          {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+          {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
           <button
             type="button"
-            onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError("");
+            }}
             className="text-[#388E3C] font-semibold hover:underline"
           >
-            {isSignUp ? 'Log In' : 'Sign Up'}
+            {isSignUp ? "Log In" : "Sign Up"}
           </button>
         </p>
       </div>

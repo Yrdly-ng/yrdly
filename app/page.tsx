@@ -1,345 +1,271 @@
-"use client";
+import Link from "next/link";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import { DiscoveryBrowser } from "@/components/discovery/discovery-browser";
+import { getPublicDiscovery } from "@/lib/public-discovery";
+import { appLink } from "@/lib/app-links";
+import { NewsletterSignup } from "@/components/newsletter-signup";
+import { PwaInstallSection } from "@/components/PwaInstallSection";
+import { BLOG_ARTICLES } from "./blog/articles-data";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Calendar, ShoppingBag, Users, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
-import { HeroLoginForm } from '@/components/auth/HeroLoginForm';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { PwaInstallSection } from '@/components/PwaInstallSection';
+export const dynamic = "force-dynamic";
 
-import { NewsletterPopup } from '@/components/newsletter-popup';
-
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  placeholderLabel?: string;
-  image?: string;
-}
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, placeholderLabel, image }) => (
-  <Card className="overflow-hidden border-border hover:shadow-lg transition-shadow">
-    <div className="relative h-48 bg-gradient-to-br from-[#82DB7E]/20 via-[#82DB7E]/10 to-transparent flex items-center justify-center overflow-hidden">
-      {image ? (
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-      ) : (
-        <span className="text-xs text-muted-foreground font-medium px-4 py-2 bg-background/80 backdrop-blur-sm rounded-md border border-border">
-          {placeholderLabel}
-        </span>
-      )}
-    </div>
-    <CardContent className="p-6">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="p-2 bg-[#82DB7E]/10 rounded-lg text-[#82DB7E]">
-          {icon}
-        </div>
-        <h3 className="font-bold text-lg">{title}</h3>
-      </div>
-      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
-    </CardContent>
-  </Card>
-);
-
-interface ProductStepProps {
-  number: string;
-  title: string;
-  description: string;
-  image?: string;
-}
-
-const ProductStep: React.FC<ProductStepProps> = ({ number, title, description, image }) => (
-  <div className="flex flex-col items-center text-center space-y-4">
-    <div className="relative w-64 h-[500px] bg-gradient-to-br from-background via-muted/30 to-background border-4 border-border rounded-[2.5rem] shadow-xl flex items-center justify-center overflow-hidden">
-      {image ? (
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-      ) : (
-        <span className="text-xs text-muted-foreground font-medium px-4 py-2 bg-background/80 backdrop-blur-sm rounded-md border border-border">
-          SCREENSHOT: yrdly-app
-        </span>
-      )}
-    </div>
-    <div className="space-y-2">
-      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#82DB7E] text-background font-bold text-lg">
-        {number}
-      </div>
-      <h3 className="font-bold text-xl">{title}</h3>
-      <p className="text-muted-foreground text-sm max-w-xs">{description}</p>
-    </div>
-  </div>
-);
-
-const YrdlyHomepage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'already_subscribed'>('idle');
-  const [subscribedEmails, setSubscribedEmails] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem('yrdly_subscribed_emails');
-      if (saved) {
-        setSubscribedEmails(JSON.parse(saved));
-      }
-    } catch {}
-  }, []);
-
-  const handleSubscribe = async () => {
-    const trimmedEmail = email.trim().toLowerCase();
-    if (!trimmedEmail || newsletterStatus === 'loading') return;
-
-    if (subscribedEmails.includes(trimmedEmail)) {
-      setNewsletterStatus('already_subscribed');
-      return;
-    }
-
-    setNewsletterStatus('loading');
-    try {
-      const res = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: trimmedEmail }),
-      });
-      if (res.ok) {
-        setNewsletterStatus('success');
-        const updated = [...subscribedEmails, trimmedEmail];
-        setSubscribedEmails(updated);
-        try {
-          localStorage.setItem('yrdly_subscribed_emails', JSON.stringify(updated));
-        } catch {}
-      } else {
-        setNewsletterStatus('error');
-      }
-    } catch {
-      setNewsletterStatus('error');
-    }
-  };
-
-  const faqs = [
-    {
-      question: 'How do I create a listing on Yrdly?',
-      answer: 'Simply open the app, tap the "+" button, snap a photo of your item, add a quick description and price, and post! Your neighbours will see it instantly.'
-    },
-    {
-      question: 'Is it safe to buy from neighbours?',
-      answer: 'Yes! All Yrdly users are verified by estate/street address. You can see profiles, ratings, and meet face-to-face in your own neighbourhood for safe exchanges.'
-    },
-    {
-      question: 'How do I find local events and owambe?',
-      answer: 'Check the Events tab to see what\'s happening nearby — from birthday parties to estate meetings. RSVP directly and get reminders so you never miss out.'
-    },
-    {
-      question: 'Can I save items to view later?',
-      answer: 'Absolutely! Tap the heart icon on any listing to save it. Find all your saved items in your profile whenever you\'re ready to buy.'
-    },
-    {
-      question: 'How do I contact support?',
-      answer: 'Reach us anytime at support@yrdly.ng or through the in-app help center. We\'re here to keep your neighbourhood connected and running smoothly.'
-    }
-  ];
-
+export default async function HomePage() {
+  const discovery = await getPublicDiscovery();
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Header currentPage="home" />
-      <NewsletterPopup />
-
-      {/* Hero Section */}
-      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80"
-            alt="People in a park"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 w-full max-w-md px-4 py-20 mt-16 flex flex-col items-center">
-          <HeroLoginForm />
-        </div>
-      </section>
-
-      {/* Discovery Hub */}
-      <section className="py-16 lg:py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl text-foreground mb-4">
-              See What's Happening In Your Estate
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From owambe to marketplace deals, your neighbourhood is buzzing with activity
+    <>
+      <Header />
+      <main id="main-content">
+        <section className="home-hero wrap">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <span className="status-dot" /> YOUR NEIGHBOURHOOD, A LITTLE
+              CLOSER
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<Calendar size={24} />}
-              title="Discover Events"
-              description="Never miss a party, estate meeting, or community gathering. See what's happening this weekend and RSVP with one tap."
-              image="/owambe.jpeg"
-            />
-            <FeatureCard
-              icon={<ShoppingBag size={24} />}
-              title="Neighbourhood Market"
-              description="Buy and sell with people down the road. From furniture to fashion, find deals from trusted neighbours — no shipping, no wahala."
-              image="/market.jpeg"
-            />
-            <FeatureCard
-              icon={<Users size={24} />}
-              title="Verified Neighbours Only"
-              description="Every user is verified by estate and street address. Connect with real people in your community, safely and securely."
-              image="/neighbours.jpeg"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Product Tour */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl text-foreground mb-4">
-              Your Estate, In Your Pocket
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to stay connected with your neighbourhood, right at your fingertips
+            <h1>
+              Good things.
+              <br />
+              Good people.
+              <br />
+              <em>Closer than you think.</em>
+            </h1>
+            <p className="hero-description">
+              The place down the road. The plans for the weekend. The people who
+              make it feel like home. Find your corner of Nigeria on YRDLY.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
-            <ProductStep
-              number="1"
-              title="Swift Listings"
-              description="Snap, price, post. List anything in seconds and reach neighbours who are actually nearby and ready to buy."
-              image="/sell-item.jpeg"
-            />
-            <ProductStep
-              number="2"
-              title="Effortless Discovery"
-              description="Browse what's for sale on your street. Filter by category, save your favorites, and chat directly with sellers."
-              image="/explore.jpeg"
-            />
-            <ProductStep
-              number="3"
-              title="Estate & Local Events"
-              description="Stay in the know. From birthday parties to estate clean-ups, see what's happening and join in."
-              image="/events.jpeg"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* PWA Install Section */}
-      <PwaInstallSection />
-
-      {/* Community Pulse Newsletter */}
-      <section className="py-16 lg:py-20 bg-[#82DB7E]/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#82DB7E] text-background mb-4">
-              <Mail size={32} />
+            <div className="hero-actions">
+              <a href={appLink()} className="button button-primary">
+                Explore YRDLY <span aria-hidden="true">↗</span>
+              </a>
+              <a href="#discover" className="text-link">
+                Take a look around <span aria-hidden="true">↓</span>
+              </a>
             </div>
-            <h2 className="text-3xl sm:text-4xl text-foreground">
-              Join Our Community Pulse
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Get weekly updates on what's happening in your estate. No spam. Just community trust.
+            <p className="hero-footnote">
+              Your people. Your places. Your everyday.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (newsletterStatus === 'error' || newsletterStatus === 'already_subscribed') {
-                    setNewsletterStatus('idle');
-                  }
-                }}
-                onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
-                className="flex-1 border-border bg-background"
-                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+          </div>
+          <div className="hero-editorial">
+            <figure className="hero-photo">
+              <img
+                src="/editorial/gathering.webp"
+                alt="Friends spending an afternoon together outdoors"
+                fetchPriority="high"
+                width="1500"
+                height="1000"
               />
-              <Button
-                onClick={handleSubscribe}
-                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                className={
-                  newsletterStatus === 'success' || newsletterStatus === 'already_subscribed'
-                    ? "bg-[#166534] hover:bg-[#166534] text-white font-semibold px-8"
-                    : "bg-[#82DB7E] hover:bg-[#82DB7E]/90 text-background font-semibold px-8"
-                }
-              >
-                {newsletterStatus === 'loading'
-                  ? 'Subscribing…'
-                  : newsletterStatus === 'success'
-                  ? '✓ Subscribed!'
-                  : newsletterStatus === 'already_subscribed'
-                  ? '✓ Subscribed!'
-                  : 'Subscribe'}
-              </Button>
-            </div>
-            {newsletterStatus === 'already_subscribed' && (
-              <p className="text-xs text-amber-600 font-medium">This email is already subscribed to the newsletter.</p>
-            )}
-            {newsletterStatus === 'error' && (
-              <p className="text-xs text-red-500">Something went wrong. Please try again.</p>
-            )}
-            {newsletterStatus !== 'error' && newsletterStatus !== 'already_subscribed' && (
-              <p className="text-xs text-muted-foreground">
-                We respect your privacy. Unsubscribe anytime.
+              <figcaption>
+                <span>OFFLINE MOMENTS. ONLINE CONNECTIONS.</span>
+                <span aria-hidden="true">01 / YRDLY</span>
+              </figcaption>
+            </figure>
+            <div className="hero-note">
+              <span className="note-number">
+                Hello,
+                <br />
+                <em>neighbour.</em>
+              </span>
+              <p>
+                There’s a whole world
+                <br />
+                just around your corner.
               </p>
-            )}
+              <a
+                href="#discover"
+                aria-label="Discover public listings"
+                className="note-arrow"
+              >
+                ↘
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl text-foreground mb-4">
-              Questions? We Got You
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Everything you need to know about Yrdly
+        </section>
+        <nav
+          className="discovery-index wrap"
+          aria-label="Discover your neighbourhood"
+        >
+          <span>A LITTLE OF EVERYTHING</span>
+          <Link href="/marketplace">
+            A good find <span>↗</span>
+          </Link>
+          <Link href="/events">
+            A plan to make <span>↗</span>
+          </Link>
+          <Link href="/businesses">
+            A local favourite <span>↗</span>
+          </Link>
+          <a href={appLink("/communities")}>
+            Your kind of people <span>↗</span>
+          </a>
+        </nav>
+        <section id="discover" className="section wrap">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">THE NEIGHBOURHOOD EDIT</p>
+              <h2>
+                Have a look <em>around.</em>
+              </h2>
+            </div>
+            <p>
+              Real finds and familiar places.
+              <br />
+              Start anywhere. See what catches your eye.
             </p>
           </div>
-
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border border-border rounded-lg px-6 bg-card"
-              >
-                <AccordionTrigger className="font-semibold text-left hover:no-underline">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+          <DiscoveryBrowser {...discovery} compact />
+        </section>
+        <section className="local-story">
+          <div className="wrap story-grid">
+            <figure>
+              <img
+                src="/editorial/market.webp"
+                alt="A trader surrounded by fresh produce at a local market"
+                loading="lazy"
+                width="1000"
+                height="800"
+              />
+              <figcaption>
+                Behind every local favourite, there’s a person.
+              </figcaption>
+            </figure>
+            <div className="story-copy">
+              <p className="eyebrow">GOOD THINGS GROW CLOSE TO HOME</p>
+              <h2>
+                Someone nearby
+                <br />
+                has just what
+                <br />
+                <em>you’re looking for.</em>
+              </h2>
+              <p>
+                A tailor who gets the fit right. A lunch spot you’ll go back to.
+                A neighbour with something you need. YRDLY brings those everyday
+                discoveries a little closer.
+              </p>
+              <Link href="/businesses" className="text-link">
+                Meet your local businesses <span aria-hidden="true">↗</span>
+              </Link>
+              <div className="story-footer">
+                <span>Made for local life.</span>
+                <span>All across Nigeria.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="section wrap weekend-section">
+          <div>
+            <p className="eyebrow">MAKE ROOM FOR A GOOD TIME</p>
+            <h2>
+              Less “what’s the plan?”
+              <br />
+              More <em>“see you there.”</em>
+            </h2>
+            <p>
+              A small gathering. A big celebration. Something you didn’t know
+              was happening. Find a reason to step out.
+            </p>
+            <Link href="/events" className="button button-dark">
+              Find your next plan ↗
+            </Link>
+          </div>
+          <figure>
+            <img
+              src="/editorial/celebration.webp"
+              alt="Guests dancing together at a celebration"
+              width="1000"
+              height="700"
+              loading="lazy"
+            />
+            <figcaption>There’s always a reason to come together.</figcaption>
+          </figure>
+        </section>
+        <section className="nationwide-section">
+          <div className="wrap nationwide-inner">
+            <p className="eyebrow">WHEREVER YOU CALL HOME</p>
+            <h2>
+              Different places.
+              <br />
+              The same feeling of <em>belonging.</em>
+            </h2>
+            <p>
+              From a busy street in Kano to a quiet corner of Uyo. From Ibadan
+              to Abuja, Enugu to Benin City, Port Harcourt to Lagos. Your
+              neighbourhood has its own rhythm. There’s room for it here.
+            </p>
+            <a href={appLink("/communities")} className="text-link">
+              Find your community ↗
+            </a>
+            <div className="place-line" aria-hidden="true">
+              <span>Jos</span>
+              <span>Abeokuta</span>
+              <span>Kaduna</span>
+              <span>Owerri</span>
+              <span>Ilorin</span>
+              <span>Akure</span>
+              <span>Asaba</span>
+            </div>
+          </div>
+        </section>
+        <PwaInstallSection />
+        <section className="section wrap journal-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">NOTES FROM THE NEIGHBOURHOOD</p>
+              <h2>
+                A little local <em>knowledge.</em>
+              </h2>
+            </div>
+            <Link href="/blog" className="text-link">
+              Read the journal ↗
+            </Link>
+          </div>
+          <div className="journal-list">
+            {BLOG_ARTICLES.slice(0, 3).map((article, index) => (
+              <Link key={article.slug} href={`/blog/${article.slug}`}>
+                <span className="journal-number">0{index + 1}</span>
+                <div>
+                  <p className="card-overline">
+                    {article.category} · {article.readTime}
+                  </p>
+                  <h3>{article.title}</h3>
+                </div>
+                <span aria-hidden="true">↗</span>
+              </Link>
             ))}
-          </Accordion>
-        </div>
-      </section>
-
+          </div>
+        </section>
+        <section className="newsletter-section wrap">
+          <div>
+            <p className="eyebrow">A NOTE NOW AND THEN</p>
+            <h2>
+              Keep a little YRDLY
+              <br />
+              in your inbox.
+            </h2>
+          </div>
+          <div>
+            <p>Product news, neighbourhood stories and things worth knowing.</p>
+            <NewsletterSignup
+              placeholder="Your email address"
+              source="homepage"
+            />
+            <small>Unsubscribe whenever you like.</small>
+          </div>
+        </section>
+        <section className="closing-section wrap">
+          <p>Your neighbourhood is already full of possibility.</p>
+          <h2>
+            Go on. <em>Say hello.</em>
+          </h2>
+          <a href={appLink()} className="button button-primary">
+            Explore YRDLY ↗
+          </a>
+          <Link href="/faq" className="text-link">
+            A few questions first? ↗
+          </Link>
+        </section>
+      </main>
       <Footer />
-    </div>
+    </>
   );
-};
-
-export default YrdlyHomepage;
+}

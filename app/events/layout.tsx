@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Discover Events Near You - Yrdly',
-  description: "From owambe nights to farmers markets — find what's happening in your estate and secure your spot instantly.",
+  description: "Find your next plan. Discover public events, gatherings and celebrations across Nigeria on YRDLY.",
   alternates: {
     canonical: '/events',
   },

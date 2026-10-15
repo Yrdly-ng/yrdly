@@ -4,7 +4,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'api.yrdly.ng' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+    ],
   },
 }
 

@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
 import { Fraunces, Work_Sans } from 'next/font/google'
 import './globals.css'
+import './astra.css'
 import { CookieConsent } from '@/components/cookie-consent'
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
@@ -47,7 +46,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
 }
 
 export default function RootLayout({
@@ -109,8 +107,8 @@ export default function RootLayout({
         <style>{`
 html {
   font-family: ${workSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
+  --font-sans: ${workSans.style.fontFamily};
+  --font-mono: ui-monospace, monospace;
 }
         `}</style>
       </head>

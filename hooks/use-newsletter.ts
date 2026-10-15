@@ -39,6 +39,7 @@ export function useNewsletter() {
       // Make API request
       const response = await fetch('/api/newsletter', {
         method: 'POST',
+        signal: AbortSignal.timeout(20000),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -50,7 +51,7 @@ export function useNewsletter() {
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok || !data.success) {
         throw new Error(data.message || 'Failed to subscribe');
       }
 
@@ -66,7 +67,7 @@ export function useNewsletter() {
       
       if (error instanceof z.ZodError) {
         errorMessage = error.errors[0]?.message || 'Invalid email address';
-      } else if (error instanceof Error) {
+      } else if (error instanceof Error && error.name !== 'TimeoutError') {
         errorMessage = error.message;
       }
 

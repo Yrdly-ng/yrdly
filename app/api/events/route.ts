@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { eventIsPast } from '@/lib/public-types';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -10,16 +11,17 @@ export const revalidate = 0;
 const APP_SUPABASE_URL = process.env.NEXT_PUBLIC_APP_SUPABASE_URL;
 const APP_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY;
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     if (!APP_SUPABASE_URL || !APP_SUPABASE_ANON_KEY) {
       console.error('[events/api] App Supabase env vars not set. Returning empty list.');
-      return NextResponse.json([]);
+      return NextResponse.json([], { status: 503 });
     }
 
     const supabase = createClient(APP_SUPABASE_URL, APP_SUPABASE_ANON_KEY);
 
-    const { data: events, error } = await supabase
+    const eventId = new URL(request.url).searchParams.get("id");
+    let query = supabase
       .from('events')
       .select(`
         id,
@@ -49,15 +51,17 @@ export async function GET() {
       .eq('visibility', 'PUBLIC')
       .order('start_time', { ascending: true })
       .limit(20);
+    if (eventId) query = query.eq('id', eventId);
+    const { data: events, error } = await query.abortSignal(AbortSignal.timeout(8000));
 
     if (error) {
       console.error('[events/api] Supabase query error:', error.message);
-      return NextResponse.json([]);
+      return NextResponse.json([], { status: 503 });
     }
 
     // Transform to match the shape expected by the marketing events page
     const transformed = (events || []).map((event) => {
-      const tiers = (event.ticket_tiers as any[]) || [];
+      const tiers = ((event.ticket_tiers as any[]) || []).filter(t => t.is_visible !== false);
       const lowestPrice = tiers.length
         ? Math.min(...tiers.map((t) => Number(t.price)))
         : 0;
@@ -72,6 +76,8 @@ export async function GET() {
       const formattedDate = startDate.toLocaleDateString('en-NG', {
         day: '2-digit',
         month: 'short',
+        year: 'numeric',
+        timeZone: 'Africa/Lagos',
       });
 
       const location = event.location_online
@@ -91,9 +97,14 @@ export async function GET() {
         id: event.id,
         name: event.title,
         date: formattedDate,
+        time: startDate.toLocaleTimeString('en-NG', { hour: 'numeric', minute: '2-digit', timeZone: 'Africa/Lagos' }),
+        start_time: event.start_time,
+        end_time: event.end_time,
+        state: event.state,
+        lga: event.lga,
         location,
         attendees: attendeesLabel,
-        image: event.cover_image_url || '/hero-image.png',
+        image: event.cover_image_url || '',
         description: event.description || '',
         category: event.category || '',
         ticketCapacity: totalCapacity || null,
@@ -103,9 +114,17 @@ export async function GET() {
       };
     });
 
+    const now = new Date();
+    transformed.sort((a, b) => {
+      const aPast = eventIsPast(a, now);
+      const bPast = eventIsPast(b, now);
+      if (aPast !== bPast) return aPast ? 1 : -1;
+      const delta = Date.parse(a.start_time) - Date.parse(b.start_time);
+      return aPast ? -delta : delta;
+    });
     return NextResponse.json(transformed);
   } catch (error) {
     console.error('[events/api] Unexpected error:', error);
-    return NextResponse.json([]);
+    return NextResponse.json([], { status: 503 });
   }
 }
