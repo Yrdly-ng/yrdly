@@ -39,7 +39,10 @@ export async function POST(request: NextRequest) {
     
     if (!emailResult.success) {
       console.error('Failed to send contact email:', emailResult.error);
-      // Don't fail the contact form if email fails, just log it
+      return NextResponse.json(
+        { success: false, message: 'We couldn’t deliver your message. Please try again or email support@yrdly.ng directly.' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json(

@@ -10,15 +10,16 @@ export const metadata = {
   },
 };
 
-const P = { fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300 } as const;
+const P = { fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400 } as const;
 
 export default function CookiePolicyPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--fg)", display: "flex", flexDirection: "column" }}>
       <Header />
+      <main id="main-content" className="legacy-content">
 
       {/* Header band */}
-      <section style={{ paddingTop: 96, paddingBottom: "4rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
+      <section style={{ paddingTop: 55, paddingBottom: "4rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <Link
             href="/"
@@ -49,7 +50,7 @@ export default function CookiePolicyPage() {
           >
             Cookie Policy
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Last updated: October 5, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 5, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
         </div>
       </section>
 
@@ -150,6 +151,7 @@ export default function CookiePolicyPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

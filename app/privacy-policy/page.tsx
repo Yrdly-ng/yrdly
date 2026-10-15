@@ -145,9 +145,10 @@ export default function PrivacyPolicyPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--fg)", display: "flex", flexDirection: "column" }}>
       <Header />
+      <main id="main-content" className="legacy-content">
 
       {/* Header band */}
-      <section style={{ paddingTop: 96, paddingBottom: "4rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
+      <section style={{ paddingTop: 55, paddingBottom: "4rem", paddingLeft: "1.5rem", paddingRight: "1.5rem", background: "var(--section-alt)" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <Link
             href="/"
@@ -178,7 +179,7 @@ export default function PrivacyPolicyPage() {
           >
             Privacy Policy
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 300 }}>Last updated: October 5, 2026</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 5, 2026</p>
         </div>
       </section>
 
@@ -188,7 +189,7 @@ export default function PrivacyPolicyPage() {
           className="redesign-card"
           style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem", background: "var(--bg-card)" }}
         >
-          <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300, marginBottom: "2.5rem" }}>
+          <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400, marginBottom: "2.5rem" }}>
             At Yrdly, your privacy and data security are fundamental to our operations. This Privacy Policy provides complete transparency regarding how we collect, process, store, share, and protect your personal information across all Yrdly applications and services.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
@@ -198,14 +199,14 @@ export default function PrivacyPolicyPage() {
                   {s.title}
                 </h2>
                 {s.intro && (
-                  <p style={{ fontSize: "0.92rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300, marginBottom: "0.5rem" }}>
+                  <p style={{ fontSize: "0.92rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400, marginBottom: "0.5rem" }}>
                     {s.intro}
                   </p>
                 )}
                 {s.items.length > 0 && (
                   <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem", marginTop: "0.5rem" }}>
                     {s.items.map(([bold, rest], i) => (
-                      <li key={i} style={{ fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 300 }}>
+                      <li key={i} style={{ fontSize: "0.9rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400 }}>
                         {bold && <strong style={{ color: "var(--fg)", fontWeight: 500 }}>{bold} </strong>}
                         {rest}
                       </li>
@@ -218,6 +219,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

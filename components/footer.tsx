@@ -1,186 +1,70 @@
-"use client";
-
 import Link from "next/link";
-
-const PRODUCT_LINKS = [
-  { label: "Community Guides", href: "/blog" },
-  { label: "Help & FAQ", href: "/faq" },
-  { label: "Features", href: "/learn-more" },
-  { label: "Events", href: "/events" },
-  { label: "Marketplace", href: "/marketplace" },
-];
-
-const COMPANY_LINKS = [
-  { label: "About Us", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "Trust & Safety", href: "/trust-and-safety" },
-  { label: "Cookie Policy", href: "/cookie-policy" },
-  { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Terms & Conditions", href: "/terms" },
-];
+import { appLink } from "@/lib/app-links";
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: "1px solid var(--border)", padding: "3.5rem 1.5rem 2rem", background: "var(--bg)" }}>
-      <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-            gap: "2.5rem",
-            marginBottom: "3rem",
-          }}
-        >
-          {/* Brand */}
-          <div style={{ gridColumn: "span 2" }}>
-            <Link
-              href="/"
-              style={{
-                textDecoration: "none",
-                marginBottom: "1rem",
-                display: "block",
-              }}
-            >
-              <span
-                className="font-display"
-                style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--green-text)" }}
-              >
-                Yrdly
-              </span>
+    <footer className="site-footer">
+      <div className="wrap">
+        <div className="footer-top">
+          <div>
+            <Link href="/" className="footer-wordmark">
+              yrdly.
             </Link>
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: 1.7,
-                fontWeight: 300,
-                color: "var(--fg-muted)",
-                maxWidth: 280,
-                marginBottom: "1.25rem",
-              }}
-            >
-              Your community &amp; street, connected. Operated by <strong>Yrdly Technologies Limited</strong> (RC: 9267059), Oyo State, Nigeria. Governed by the laws of the Federal Republic of Nigeria.
+            <p>
+              A little closer to the people
+              <br />
+              and possibilities around you.
             </p>
-            <div style={{ display: "flex", gap: "0.625rem", flexWrap: "wrap" }}>
-              <a
-                href="https://www.instagram.com/yrdly.ng?stkn=MTEzbzYzZ2J3dWR4dA=="
-                target="_blank"
-                rel="noreferrer"
-                className="pill"
-              >
-                📸 Yrdly.ng
-              </a>
-              <a href="mailto:support@yrdly.ng" className="pill">
-                ✉️ Email
-              </a>
-              <a href="tel:09166368783" className="pill">
-                📱 Call
-              </a>
-            </div>
+            <a href={appLink()} className="text-link">
+              Find your neighbourhood <span aria-hidden="true">↗</span>
+            </a>
           </div>
-
-          {/* Product */}
+          <nav aria-label="Explore YRDLY">
+            <h2>Take a look around</h2>
+            <Link href="/marketplace">Marketplace</Link>
+            <Link href="/events">Events</Link>
+            <Link href="/businesses">Local businesses</Link>
+            <a href={appLink("/communities")}>Communities ↗</a>
+            <Link href="/learn-more">How YRDLY works</Link>
+          </nav>
+          <nav aria-label="About YRDLY">
+            <h2>A little about us</h2>
+            <Link href="/about">Our story</Link>
+            <Link href="/blog">The journal</Link>
+            <Link href="/trust-and-safety">Trust & safety</Link>
+            <Link href="/faq">Help & FAQ</Link>
+            <Link href="/contact">Get in touch</Link>
+          </nav>
           <div>
-            <p
-              style={{
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--fg-subtle)",
-                marginBottom: "1rem",
-              }}
+            <h2>Stay in the neighbourhood</h2>
+            <a
+              href="https://www.instagram.com/yrdly.ng"
+              target="_blank"
+              rel="noreferrer"
             >
-              Product
+              Instagram ↗
+            </a>
+            <a href="mailto:support@yrdly.ng">support@yrdly.ng</a>
+            <a href="tel:09166368783">0916 636 8783</a>
+            <p className="footer-origin">
+              Made in Nigeria.
+              <br />
+              For wherever you call home.
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
-              {PRODUCT_LINKS.map((l) => (
-                <FooterLink key={l.label + l.href} href={l.href} label={l.label} />
-              ))}
-            </div>
-          </div>
-
-          {/* Company */}
-          <div>
-            <p
-              style={{
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--fg-subtle)",
-                marginBottom: "1rem",
-              }}
-            >
-              Company
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
-              {COMPANY_LINKS.map((l) => (
-                <FooterLink key={l.label} href={l.href} label={l.label} />
-              ))}
-            </div>
           </div>
         </div>
-
-        <div
-          style={{
-            paddingTop: "1.5rem",
-            borderTop: "1px solid var(--border)",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: "0.75rem",
-            fontSize: "0.78rem",
-            color: "var(--fg-subtle)",
-          }}
-        >
-          <span>© {new Date().getFullYear()} Yrdly. All rights reserved.</span>
-          <div style={{ display: "flex", gap: "1.25rem" }}>
-            <Link
-              href="/privacy-policy"
-              style={{
-                textDecoration: "none",
-                fontSize: "0.78rem",
-                color: "var(--fg-subtle)",
-                fontFamily: "var(--font-work-sans), sans-serif",
-              }}
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              style={{
-                textDecoration: "none",
-                fontSize: "0.78rem",
-                color: "var(--fg-subtle)",
-                fontFamily: "var(--font-work-sans), sans-serif",
-              }}
-            >
-              Terms
-            </Link>
+        <div className="footer-bottom">
+          <span>
+            © {new Date().getFullYear()} Yrdly Technologies Limited · RC 9267059
+          </span>
+          <div>
+            <Link href="/privacy-policy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/cookie-policy">Cookies</Link>
           </div>
-          <span>Oyo State, Nigeria 🇳🇬</span>
+          <span>Oyo State, Nigeria</span>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      style={{
-        fontFamily: "var(--font-work-sans), sans-serif",
-        fontSize: "0.875rem",
-        color: "var(--fg-muted)",
-        textAlign: "left",
-        textDecoration: "none",
-        transition: "color 0.15s",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--green-text)")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-muted)")}
-    >
-      {label}
-    </Link>
   );
 }
