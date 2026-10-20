@@ -32,7 +32,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
         <ScrollArea className="max-h-[60vh] px-6">
           <div className="prose prose-lg text-gray-700 space-y-6">
             <p className="mb-4">
-              Welcome to Yrdly. These Terms and Conditions ("Terms") govern your use of the Yrdly web application (the "App"). By creating an account or using the App, you agree to be legally bound by these Terms.
+              Welcome to Yrdly. These Terms and Conditions (&quot;Terms&quot;) govern your use of the Yrdly web application (the &quot;App&quot;). By creating an account or using the App, you agree to be legally bound by these Terms.
             </p>
             <p className="mb-6">
               Please read them carefully before using the App.
@@ -82,7 +82,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
 
               <div>
                 <h2 className="text-xl font-bold text-gray-800 mb-2">6. Disclaimers</h2>
-                <p>The App is provided "as is" and "as available."</p>
+                <p>The App is provided &quot;as is&quot; and &quot;as available.&quot;</p>
                 <p>We make no guarantees regarding the accuracy or reliability of user profiles.</p>
                 <p>We do not screen all users and cannot guarantee their behavior or intentions.</p>
               </div>
@@ -129,7 +129,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
             </div>
 
             <p className="mt-8 text-center text-sm text-gray-600">
-              By clicking "Agree" or creating an account, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.
+              By clicking &quot;Agree&quot; or creating an account, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.
             </p>
           </div>
         </ScrollArea>

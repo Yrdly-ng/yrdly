@@ -104,7 +104,7 @@ function CallbackHandler() {
         {status === 'success' && (
           <>
             <CheckCircle2 className="w-10 h-10 text-green-600 mx-auto mb-4" />
-            <h2 className="text-lg font-bold text-gray-900 tracking-tight">You're in!</h2>
+            <h2 className="text-lg font-bold text-gray-900 tracking-tight">You&apos;re in!</h2>
             <p className="text-sm text-gray-400 mt-2">Taking you to your neighborhood…</p>
           </>
         )}
