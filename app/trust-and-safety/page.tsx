@@ -50,7 +50,7 @@ export default function TrustAndSafetyPage() {
           >
             Trust &amp; Safety
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 5, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 26, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
         </div>
       </section>
 
@@ -64,7 +64,7 @@ export default function TrustAndSafetyPage() {
             At Yrdly, building local community connections requires accountability, secure commerce tools, and clear safety guidance. We provide platform protections for local transactions alongside community standards for all members.
           </p>
           <p style={{ ...P, marginBottom: "2.5rem" }}>
-            This document outlines the active trust controls built into the Yrdly platform, followed by practical safety advice for conducting peer-to-peer exchanges in your neighborhood.
+            This document outlines the active trust controls built into the Yrdly platform, followed by practical safety advice for conducting peer-to-peer exchanges in your neighborhood. Our <Link href="/child-safety" style={{ color: "var(--green-text)", textDecoration: "underline" }}>Child Safety Standards</Link> prohibit child sexual abuse and exploitation and explain how to report a concern.
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
@@ -89,7 +89,7 @@ export default function TrustAndSafetyPage() {
                     In-App Reporting System
                   </h3>
                   <p style={P}>
-                    Users can report suspicious behaviour, spam, or safety issues directly from within the app (accessible via account settings and community guidelines at <code style={{ fontSize: "0.85rem", background: "var(--bg-raised)", padding: "0.15rem 0.4rem", borderRadius: 4 }}>settings/report</code> and <code style={{ fontSize: "0.85rem", background: "var(--bg-raised)", padding: "0.15rem 0.4rem", borderRadius: 4 }}>settings/guidelines</code>). When a report is submitted, your account information and report details are routed to our moderation system for review and appropriate compliance action.
+                    Users can report suspicious behaviour, spam, or safety issues through Settings → Report an Issue in the app. When a report is submitted, your account information and report details are routed to our moderation system for review and appropriate compliance action.
                   </p>
                 </div>
                 <div>
@@ -168,7 +168,7 @@ export default function TrustAndSafetyPage() {
                   <a href="mailto:support@yrdly.ng" style={{ color: "var(--green-text)", textDecoration: "underline" }}>
                     support@yrdly.ng
                   </a>{" "}
-                  with screenshots and listing links.
+                  with a description and account or listing links. For child-safety concerns, do not download, screenshot, attach or forward suspected child sexual abuse imagery. Report where it appears so authorized reviewers can locate it.
                 </li>
               </ol>
             </div>

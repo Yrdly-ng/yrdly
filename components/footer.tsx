@@ -32,6 +32,7 @@ export default function Footer() {
             <Link href="/about">Our story</Link>
             <Link href="/blog">The journal</Link>
             <Link href="/trust-and-safety">Trust & safety</Link>
+            <Link href="/child-safety">Child safety</Link>
             <Link href="/faq">Help & FAQ</Link>
             <Link href="/contact">Get in touch</Link>
           </nav>

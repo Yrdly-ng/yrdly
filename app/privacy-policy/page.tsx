@@ -30,8 +30,10 @@ const SECTIONS = [
       ["Financial & Escrow Transaction Data:", " Bank account numbers, payout bank details, escrow transaction history, payment status, transaction reference IDs, and billing addresses. Payment card details are processed directly by our PCI-DSS compliant payment partners (such as Payluk) and are never stored on Yrdly servers."],
       ["User Content & Listings:", " Images, item descriptions, prices, categories, event details, comments, ratings, and in-app chat communications exchanged between buyers and sellers."],
       ["Location & Geographical Data:", " Precise GPS location (with your explicit permission) or approximate location based on IP address and postal/neighborhood selections. Location data is used to match you with nearby listings, calculate item distances, and verify local community boundaries."],
-      ["Device & Technical Identifiers:", " IP address, unique device identifiers (IDFA, Android Advertising ID), device hardware model, operating system version, mobile network details, browser type, app version, and push notification tokens."],
-      ["Usage & Log Data:", " Search queries, pages viewed, listings saved, interaction timestamps, referral URLs, crash logs, and app performance metrics."]
+      ["Device & Technical Identifiers:", " IP address, account and session identifiers, device hardware model, operating system version, browser type, app version, and push notification tokens. Mobile product analytics and error reporting use an account UUID rather than your name or email. These mobile integrations do not use IDFA or Android Advertising ID for advertising tracking."],
+      ["Usage & Log Data:", " Screen visits, selected feature interactions, timestamps, crash logs, and diagnostic information. Mobile screen analytics use route templates rather than conversation IDs or URL query parameters."],
+      ["Diagnostic Session Replay:", " Sentry may record sampled mobile sessions and sessions associated with errors to help us reproduce problems. The recorder is configured to mask text, inputs, images, maps, video, camera previews and embedded web content. It records interaction and screen structure; network request bodies are not recorded."],
+      ["Support Conversations:", " Messages and attachments you send to support, together with your name or username, email, account ID, phone-verification status and profile area (state, local government area, city or ward), help our support team identify your account and resolve requests."]
     ],
   },
   {
@@ -76,7 +78,9 @@ const SECTIONS = [
     items: [
       ["Public Marketplace Interactions:", " Your public profile name, avatar, member rating, general neighborhood location, and active listings are visible to other Yrdly users."],
       ["Payment & Escrow Service Providers:", " We share necessary transaction metadata with licensed payment processors (including Payluk at api.payluk.ng) to process payments, manage escrow accounts, and disburse bank payouts."],
-      ["Infrastructure & Cloud Vendors:", " Trusted third-party service providers who host our databases (Supabase), run web servers (Vercel), deliver transactional emails/SMS (Resend), and perform error tracking (Crashlytics)."],
+      ["Infrastructure & Cloud Vendors:", " Service providers host our databases (Supabase), run web servers (Vercel), and deliver transactional emails (Resend)."],
+      ["Mobile Analytics & Diagnostics:", " PostHog receives account UUIDs, screen templates and selected feature events to help improve the product. Sentry receives account UUIDs, sanitized error diagnostics, app/device information and masked session replays to investigate failures. Names, email addresses, message text and uploaded media are not deliberately included in these mobile analytics/error payloads. Providers may receive your IP address when your device connects to their services."],
+      ["Customer Support:", " Crisp receives support messages and attachments, along with the account and profile details described above, to provide and maintain our support conversation history."],
       ["Legal Authorities & Protection:", " When required by applicable law, court order, subpoena, or government regulation, or when necessary to investigate potential fraud, enforce our Terms of Service, or protect the safety of our users."]
     ],
   },
@@ -98,13 +102,13 @@ const SECTIONS = [
       ["Access & Update:", " You can review and modify your account details, profile picture, and phone number directly within the app settings."],
       ["Opt-Out of Marketing:", " You can opt out of promotional communications at any time using the unsubscribe link in emails or disabling marketing notifications."],
       ["Location & Permission Revocation:", " You can disable location access or push notifications via your mobile device's operating system settings."],
-      ["Account & Data Erasure Request:", " You have the right to request permanent deletion of your account and associated personal data. To delete your account and erase your data: (1) Open the Yrdly mobile app or web app, navigate to Settings > Profile > Delete Account, or (2) Send an explicit written deletion request to support@yrdly.ng from your registered email address. We will verify your identity and process the erasure within 30 days, subject to legally mandatory transaction retention rules."]
+      ["Account & Data Erasure Request:", " You have the right to request permanent deletion of your account and associated personal data. To delete your account and erase your data: (1) Open the Yrdly mobile app and navigate to Settings > Request Account Deletion, or use the account-deletion option in the web app settings, or (2) Send an explicit written deletion request to support@yrdly.ng from your registered email address. We will verify your identity and process the erasure within 30 days, subject to legally mandatory transaction retention rules."]
     ],
   },
   {
     id: "children-privacy",
     title: "9. Children's Privacy",
-    intro: "Yrdly is strictly intended for individuals aged 18 and older (or 13+ with adult supervision for browsing only; financial transactions require age 18+). We do not knowingly collect personal information from children under 13. If we discover that a child under 13 has created an account or submitted personal data, we will immediately delete such data and terminate the account.",
+    intro: "You must be at least 18 to hold a Yrdly account or use our community, messaging, marketplace and event services. We do not knowingly permit accounts belonging to children under 18. If you believe a child has an account or has submitted personal data, contact support@yrdly.ng. We review these reports, restrict underage accounts and remove associated personal data, except information that must be retained for safety investigations or legal obligations. Anyone may contact us to report a safety concern without creating an account.",
     items: [],
   },
   {
@@ -179,7 +183,7 @@ export default function PrivacyPolicyPage() {
           >
             Privacy Policy
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 5, 2026</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 26, 2026</p>
         </div>
       </section>
 
@@ -201,6 +205,11 @@ export default function PrivacyPolicyPage() {
                 {s.intro && (
                   <p style={{ fontSize: "0.92rem", lineHeight: 1.8, color: "var(--fg-muted)", fontWeight: 400, marginBottom: "0.5rem" }}>
                     {s.intro}
+                  </p>
+                )}
+                {s.id === "children-privacy" && (
+                  <p style={{ fontSize: "0.92rem", lineHeight: 1.8, marginTop: "0.75rem" }}>
+                    Read our <Link href="/child-safety" style={{ color: "var(--green-text)", textDecoration: "underline" }}>Child Safety Standards</Link> for prohibited conduct and reporting guidance.
                   </p>
                 )}
                 {s.items.length > 0 && (

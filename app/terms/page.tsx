@@ -50,7 +50,7 @@ export default function TermsPage() {
           >
             Terms of Service
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 5, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 26, 2026 • Yrdly Technologies Limited (RC: 9267059)</p>
         </div>
       </section>
 
@@ -72,7 +72,7 @@ export default function TermsPage() {
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
                 1. Acceptance &amp; Eligibility
               </h2>
-              <p style={P}>You must be at least 18 years old or the legal age of majority in your jurisdiction to register an account on Yrdly. By registering, you warrant that you have full legal capacity to enter into a binding agreement under the laws of the Federal Republic of Nigeria.</p>
+              <p style={P}>You must be at least 18 years old, and meet any higher legal age of majority that applies in your jurisdiction, to register an account or use Yrdly&apos;s community, messaging, marketplace and event services. By registering, you warrant that you have full legal capacity to enter into a binding agreement under the laws of the Federal Republic of Nigeria.</p>
             </div>
 
             <div>
@@ -105,9 +105,12 @@ export default function TermsPage() {
                 <li style={P}>Posting stolen, illegal, counterfeit, or prohibited goods or services.</li>
                 <li style={P}>Attempting financial fraud, advance-fee scams, or misrepresenting identity.</li>
                 <li style={P}>Harassing, threatening, or defaming neighbours, or posting hateful content.</li>
+                <li style={P}>Child sexual abuse and exploitation (CSAE), including child sexual abuse material (CSAM), grooming, sexual solicitation, sextortion, or facilitating the trafficking or sexual exploitation of children.</li>
                 <li style={P}>Scraping data or attempting unauthorized access to server infrastructure.</li>
               </ul>
             </div>
+
+            <p style={P}>Our <Link href="/child-safety" style={{ color: "var(--green-text)", textDecoration: "underline" }}>Child Safety Standards</Link> form part of these Terms and explain how to report a concern and how we respond.</p>
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
