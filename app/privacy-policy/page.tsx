@@ -30,7 +30,7 @@ const SECTIONS = [
       ["Financial & Escrow Transaction Data:", " Bank account numbers, payout bank details, escrow transaction history, payment status, transaction reference IDs, and billing addresses. Payment card details are processed directly by our PCI-DSS compliant payment partners (such as Payluk) and are never stored on Yrdly servers."],
       ["User Content & Listings:", " Images, item descriptions, prices, categories, event details, comments, ratings, and in-app chat communications exchanged between buyers and sellers."],
       ["Location & Geographical Data:", " Precise GPS location (with your explicit permission) or approximate location based on IP address and postal/neighborhood selections. Location data is used to match you with nearby listings, calculate item distances, and verify local community boundaries."],
-      ["Device & Technical Identifiers:", " IP address, account and session identifiers, device hardware model, operating system version, browser type, app version, and push notification tokens. Mobile product analytics and error reporting use an account UUID rather than your name or email. These mobile integrations do not use IDFA or Android Advertising ID for advertising tracking."],
+      ["Device & Technical Identifiers:", " IP address, account and session identifiers, device hardware model, operating system version, browser type, app version, and push notification tokens. Mobile product analytics and error reporting use your account UUID and, when available, your email address to help identify your account when reviewing usage or diagnosing a problem. These mobile integrations do not use IDFA or Android Advertising ID for advertising tracking."],
       ["Usage & Log Data:", " Screen visits, selected feature interactions, timestamps, crash logs, and diagnostic information. Mobile screen analytics use route templates rather than conversation IDs or URL query parameters."],
       ["Diagnostic Session Replay:", " Sentry may record sampled mobile sessions and sessions associated with errors to help us reproduce problems. The recorder is configured to mask text, inputs, images, maps, video, camera previews and embedded web content. It records interaction and screen structure; network request bodies are not recorded."],
       ["Support Conversations:", " Messages and attachments you send to support, together with your name or username, email, account ID, phone-verification status and profile area (state, local government area, city or ward), help our support team identify your account and resolve requests."]
@@ -79,7 +79,7 @@ const SECTIONS = [
       ["Public Marketplace Interactions:", " Your public profile name, avatar, member rating, general neighborhood location, and active listings are visible to other Yrdly users."],
       ["Payment & Escrow Service Providers:", " We share necessary transaction metadata with licensed payment processors (including Payluk at api.payluk.ng) to process payments, manage escrow accounts, and disburse bank payouts."],
       ["Infrastructure & Cloud Vendors:", " Service providers host our databases (Supabase), run web servers (Vercel), and deliver transactional emails (Resend)."],
-      ["Mobile Analytics & Diagnostics:", " PostHog receives account UUIDs, screen templates and selected feature events to help improve the product. Sentry receives account UUIDs, sanitized error diagnostics, app/device information and masked session replays to investigate failures. Names, email addresses, message text and uploaded media are not deliberately included in these mobile analytics/error payloads. Providers may receive your IP address when your device connects to their services."],
+      ["Mobile Analytics & Diagnostics:", " PostHog receives account UUIDs, account email addresses when available, screen templates and selected feature events to help improve the product and find an account when investigating usage. Sentry receives account UUIDs and email addresses when available, sanitized error diagnostics, app/device information and masked session replays to investigate failures. Names, message text and uploaded media are not deliberately included in these mobile analytics/error payloads. Providers may receive your IP address when your device connects to their services."],
       ["Customer Support:", " Crisp receives support messages and attachments, along with the account and profile details described above, to provide and maintain our support conversation history."],
       ["Legal Authorities & Protection:", " When required by applicable law, court order, subpoena, or government regulation, or when necessary to investigate potential fraud, enforce our Terms of Service, or protect the safety of our users."]
     ],
@@ -183,7 +183,7 @@ export default function PrivacyPolicyPage() {
           >
             Privacy Policy
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 26, 2026</p>
+          <p style={{ fontSize: "0.9rem", color: "var(--fg-muted)", fontWeight: 400 }}>Last updated: October 29, 2026</p>
         </div>
       </section>
 
