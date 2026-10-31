@@ -7,8 +7,10 @@ if (!RESEND_API_KEY) {
   console.warn('WARNING: RESEND_API_KEY is not defined in environment variables.');
 }
 
-// Initialize Resend — will throw on first use if key is missing (functions guard with early throws)
-const resend = new Resend(RESEND_API_KEY);
+function getResendClient() {
+  if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
+  return new Resend(RESEND_API_KEY);
+}
 
 export interface EmailData {
   email: string;
@@ -26,6 +28,7 @@ export interface ContactData {
 export async function sendWelcomeEmail({ email, name, source }: EmailData) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
+    const resend = getResendClient();
 
     const data = await resend.emails.send({
       from: `Yrdly Team <${FROM_EMAIL}>`,
@@ -111,6 +114,7 @@ export async function sendWelcomeEmail({ email, name, source }: EmailData) {
 export async function sendContactEmail({ name, email, subject, message }: ContactData) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
+    const resend = getResendClient();
 
     const data = await resend.emails.send({
       from: `Contact Form <${FROM_EMAIL}>`,
@@ -160,6 +164,7 @@ export async function sendTicketEmail({
 }: EmailData & { eventName: string, ticketId: string, qrCodeDataUrl?: string, qrCode?: string }) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
+    const resend = getResendClient();
     
     const finalQrCode = qrCode || qrCodeDataUrl;
     if (!finalQrCode) throw new Error('QR code data is missing');
@@ -219,6 +224,7 @@ let cachedAudienceId = process.env.RESEND_AUDIENCE_ID;
 export async function addAttendeeContact({ email, name, eventName }: { email: string, name?: string, eventName: string }) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
+    const resend = getResendClient();
     
     let targetAudienceId = process.env.RESEND_AUDIENCE_ID || cachedAudienceId;
 
