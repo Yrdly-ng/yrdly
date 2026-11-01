@@ -2,20 +2,22 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { getTicketById, markTicketScanned } from '@/lib/supabase-client'
 
-const ADMIN_PASSWORD = process.env.SCANNER_ADMIN_PASSWORD;
-if (!ADMIN_PASSWORD) {
-  throw new Error('[scanner-v2] SCANNER_ADMIN_PASSWORD environment variable is not set.');
-}
-
 const scanSchema = z.object({
   ticketId: z.string().min(1, 'Ticket ID is required'),
 })
 
 export async function POST(request: NextRequest) {
   try {
+    const adminPassword = process.env.SCANNER_ADMIN_PASSWORD;
+    if (!adminPassword) {
+      return NextResponse.json(
+        { success: false, message: 'Scanner is not configured.' },
+        { status: 503 }
+      );
+    }
     // Authenticate: caller must supply the scanner admin password in the Authorization header
     const authHeader = request.headers.get('authorization');
-    if (!authHeader || authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
+    if (!authHeader || authHeader !== `Bearer ${adminPassword}`) {
       return NextResponse.json(
         { success: false, message: 'Unauthorized: invalid or missing admin credentials' },
         { status: 401 }

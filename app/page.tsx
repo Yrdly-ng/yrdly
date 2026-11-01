@@ -1,3 +1,4 @@
+import { CampaignBanner } from "@/components/campaigns/CampaignBanner";
 import Link from "next/link";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -16,6 +17,7 @@ export default async function HomePage() {
     <>
       <Header />
       <main id="main-content">
+        <CampaignBanner />
         <section className="home-hero wrap">
           <div className="hero-copy">
             <p className="eyebrow">

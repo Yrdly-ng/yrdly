@@ -1,3 +1,4 @@
+import { CampaignBanner } from "@/components/campaigns/CampaignBanner";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { getPublicDiscovery } from "@/lib/public-discovery";
@@ -16,6 +17,7 @@ export default async function BusinessesPage() {
     <>
       <Header />
       <main id="main-content">
+        <CampaignBanner />
         <section className="page-intro wrap">
           <p className="eyebrow">THE PEOPLE BEHIND YOUR LOCAL FAVOURITES</p>
           <h1>
