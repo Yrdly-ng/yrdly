@@ -13,7 +13,7 @@ export function Leaderboard() {
     const id = ++request.current;
     setLoading(true);
     try {
-      const response = await fetch('/api/campaigns/small-businesses', { cache: 'no-store' });
+      const response = await fetch(appLink('/api/campaigns/small-businesses'), { cache: 'no-store', mode: 'cors' });
       if (!response.ok) throw new Error('Leaderboard unavailable. Please try again.');
       const result: CampaignData = await response.json();
       if (id === request.current) { setData(result); setError(''); }
