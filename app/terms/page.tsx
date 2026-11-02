@@ -98,7 +98,17 @@ export default function TermsPage() {
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                4. Prohibited Conduct &amp; Content Standards
+                4. Event Tickets &amp; Payments
+              </h2>
+              <p style={P}>New paid event ticket orders on Yrdly are processed through Payluk. Paystack is reserved for Yrdly subscription payments and remains the provider for older ticket orders originally purchased through Paystack.</p>
+              <p style={{ ...P, marginTop: "0.5rem" }}>For Payluk ticket orders, organizer proceeds are not eligible for withdrawal earlier than 24 hours after the event ends. Refund requests, disputes, event changes and payment reconciliation can extend the hold. The 24-hour point is an earliest eligibility time, not a guarantee of bank transfer timing.</p>
+              <p style={{ ...P, marginTop: "0.5rem" }}>Ticket cancellation and refund requests are handled under the event organizer&apos;s disclosed policy. Yrdly may assist with provider resolution. A refund is complete only after the payment provider confirms it; while a request is being reviewed, the ticket may be blocked from entry.</p>
+              <p style={{ ...P, marginTop: "0.5rem" }}>For new Payluk ticket orders, approved refunds return the refundable balance after retained payment fees. This also applies when an organizer cancels an event, so the refund may be less than the ticket price. Yrdly does not reimburse retained fees. Older ticket orders remain subject to the terms disclosed when they were purchased.</p>
+            </div>
+
+            <div>
+              <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
+                5. Prohibited Conduct &amp; Content Standards
               </h2>
               <p style={P}>Users are strictly forbidden from engaging in the following conduct on the Platform:</p>
               <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "0.5rem" }}>
@@ -114,21 +124,21 @@ export default function TermsPage() {
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                5. User Content &amp; Intellectual Property
+                6. User Content &amp; Intellectual Property
               </h2>
               <p style={P}>You retain ownership of photos, listings, text, and media you upload to Yrdly. By uploading content, you grant Yrdly a non-exclusive, worldwide, royalty-free license to display and distribute that content to operate and promote the Platform. Yrdly owns all software, logos, trademarks, and design systems associated with the Platform.</p>
             </div>
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                6. Limitation of Liability
+                7. Limitation of Liability
               </h2>
               <p style={P}>To the maximum extent permitted by applicable law, Yrdly Technologies Limited, its directors, employees, and agents shall not be liable for any indirect, incidental, special, or consequential damages resulting from user interactions, off-platform transactions, or unverified claims. All services are provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis.</p>
             </div>
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                7. Dispute Resolution &amp; Governing Law
+                8. Dispute Resolution &amp; Governing Law
               </h2>
               {/* LAWYER REVIEW: dispute resolution clause */}
               <p style={P}>These Terms are governed by the laws of the Federal Republic of Nigeria. If a dispute arises, please contact support@yrdly.ng so we can try to resolve it in good faith.</p>
@@ -136,14 +146,14 @@ export default function TermsPage() {
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                8. Account Termination &amp; Policy Changes
+                9. Account Termination &amp; Policy Changes
               </h2>
               <p style={P}>We reserve the right to suspend or terminate accounts that violate these Terms or threaten community safety. We may update these Terms periodically, notifying users via email or site banner. Continued platform use following updates constitutes acceptance of the revised Terms.</p>
             </div>
 
             <div>
               <h2 className="font-display" style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--fg)", marginBottom: "0.75rem" }}>
-                9. Contact &amp; Legal Notices
+                10. Contact &amp; Legal Notices
               </h2>
               <p style={P}>For legal notices or questions regarding these Terms, contact us at:</p>
               <p style={{ ...P, marginTop: "0.5rem" }}>
