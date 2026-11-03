@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import { appLink } from "@/lib/app-links";
 
 const links = [
+  { label: "Win ₦500k", href: "/campaigns/small-businesses" },
   { label: "Discover", href: "/#discover" },
   { label: "Marketplace", href: "/marketplace" },
   { label: "Events", href: "/events" },

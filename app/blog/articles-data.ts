@@ -26,7 +26,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "how-escrow-payments-protect-buyers-and-sellers-nigeria",
     title: "How Escrow Payments Protect Buyers and Sellers in Local Nigerian Marketplaces",
-    excerpt: "Online scams and unfulfilled transactions remain major risks in peer-to-peer commerce. Learn how escrow technology creates 100% risk-free trade for Nigerian neighborhoods.",
+    excerpt: "Online scams and unfulfilled transactions remain major risks in peer-to-peer commerce. Learn how escrow can add protection to local transactions.",
     category: "Security & Payments",
     readTime: "6 min read",
     publishedAt: "September 20, 2026",
@@ -37,7 +37,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     },
     coverImage: "/images/trust.jpg",
     content: {
-      intro: "Buying and selling within local Nigerian communities should be built on trust, but fear of financial loss frequently hampers commerce. Buyers hesitate to pay upfront for items they haven't inspected, while sellers fear delivering goods without guaranteed payment. This dilemma—often called the 'trust deficit' in Nigerian digital commerce—is solved by modern escrow payment systems.",
+      intro: "Buying and selling within local Nigerian communities should be built on trust, but fear of financial loss can make commerce harder. Buyers hesitate to pay upfront for items they haven't inspected, while sellers fear delivering goods without guaranteed payment. Escrow can help manage some of these risks when both sides follow the transaction and dispute process.",
       sections: [
         {
           heading: "Understanding the Traditional Peer-to-Peer Risks",
@@ -50,11 +50,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         {
           heading: "How Escrow Technology Bridges the Gap",
           body: [
-            "An escrow system acts as a neutral financial vault that holds payment funds securely during a transaction. When a buyer places an order on Yrdly, their payment is deposited into a licensed escrow account managed via our financial partners (Paystack & Payluk).",
+            "For supported YRDLY marketplace product purchases, Payluk processes the payment and holds the escrow while the transaction is completed. Follow the payment and delivery terms shown for your order.",
             "The seller receives immediate notification that funds are secured in escrow and proceeds to deliver the item or service. The funds remain locked until the buyer physical inspects the purchase and confirms satisfaction in the app.",
-            "Once confirmed, the escrow vault automatically releases the money into the seller's bank payout balance. Neither party can cheat the other."
+            "After a valid release, the seller's Payluk balance is credited according to the provider's settlement process. Disputes, refunds and provider processing can affect the timing or outcome. Escrow can reduce some transaction risks, but it cannot guarantee a risk-free trade."
           ],
-          keyTakeaway: "Escrow guarantees sellers get paid upon delivery while ensuring buyers only pay for what they inspect and approve."
+          keyTakeaway: "Use the order's stated terms, confirm delivery only when appropriate, and open a dispute promptly if something is wrong."
         },
         {
           heading: "Key Safety Protocols for Neighborhood Commerce",
@@ -66,7 +66,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           ]
         }
       ],
-      conclusion: "By combining local location verification with automated escrow technology, Yrdly ensures that buying secondhand goods or local services in Nigeria is safe, transparent, and hassle-free."
+      conclusion: "By combining local discovery with payment and dispute tools, YRDLY aims to make neighbourhood commerce clearer and safer. Review each order's terms and use in-app support when you need help."
     }
   },
   {
