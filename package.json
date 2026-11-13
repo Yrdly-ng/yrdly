@@ -7,7 +7,7 @@
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
-    "test:attribution": "vitest run tests/acquisition.test.ts",
+    "test:attribution": "vitest run lib/acquisition.test.ts",
     "prebuild": "npm run test:attribution"
   },
   "dependencies": {
