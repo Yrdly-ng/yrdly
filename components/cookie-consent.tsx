@@ -19,6 +19,7 @@ export function CookieConsent() {
   const acceptConsent = () => {
     setShowConsent(false);
     Cookies.set(COOKIE_NAME, "true", { expires: 365 });
+    window.dispatchEvent(new Event("yrdly:cookie-consent"));
   };
 
   if (!showConsent) {
