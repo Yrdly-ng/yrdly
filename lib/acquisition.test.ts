@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import { campaignTouch, mergeTouch, parseRecord } from './acquisition'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { campaignTouch, mergeTouch, parseRecord, rememberMarketingTouch, marketingSignupAttribution, appendMarketingOAuthAttribution, marketingOAuthAttribution } from './acquisition'
+import { readFileSync } from 'node:fs'
 
 describe('privacy-bounded YRDLY acquisition tags', () => {
   it('recognizes explicit Instagram and TikTok campaign tags', () => {
@@ -47,6 +48,48 @@ describe('privacy-bounded YRDLY acquisition tags', () => {
     expect(updated.captured_at).toBe(initial.captured_at)
     expect(parseRecord(JSON.stringify(updated))).toEqual(updated)
   })
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('preserves Instagram first touch across marketing homepage to /signup without cookies', () => {
+    const stored = new Map<string, string>()
+    const mockStorage = {
+      getItem: (name: string) => stored.get(name) ?? null,
+      setItem: (name: string, value: string) => { stored.set(name, value) },
+    }
+    vi.stubGlobal('window', {
+      sessionStorage: mockStorage,
+      location: { href: 'https://yrdly.ng/signup' },
+    })
+    vi.stubGlobal('document', { cookie: '', referrer: 'https://yrdly.ng/' })
+    const instagram = campaignTouch(new URL('https://yrdly.ng/?utm_source=instagram&utm_medium=social&utm_campaign=profile_bio'), '')
+    if (!instagram) throw Error('Missing Instagram attribution')
+    rememberMarketingTouch(instagram)
+    const saved = marketingSignupAttribution()
+    expect(saved.first.source).toBe('instagram')
+    expect(saved.last.campaign).toBe('profile_bio')
+    expect(saved.version).toBe(1)
+  })
+
+  it('carries only sanitized Google OAuth campaign values through marketing callback', () => {
+    const stored = new Map<string, string>()
+    vi.stubGlobal('window', {
+      sessionStorage: { getItem: (n: string) => stored.get(n) ?? null,
+        setItem: (n: string, v: string) => { stored.set(n, v) } },
+      location: { href: 'https://yrdly.ng/login?utm_source=tiktok&utm_medium=social&utm_campaign=profile_bio' },
+    })
+    vi.stubGlobal('document', { cookie: '', referrer: '' })
+    const callback = new URL('https://yrdly.ng/auth/callback?next=%2Fhome')
+    appendMarketingOAuthAttribution(callback, marketingSignupAttribution())
+    expect(callback.searchParams.get('next')).toBe('/home')
+    expect(marketingOAuthAttribution(callback).first.source).toBe('tiktok')
+    expect(marketingOAuthAttribution(callback).last.campaign).toBe('profile_bio')
+    expect(callback.toString()).not.toContain('gclid')
+    const signupForm = readFileSync('components/auth/HeroLoginForm.tsx', 'utf8')
+    expect(signupForm).toContain('signup_attribution: attribution')
+    expect(signupForm).toContain('reportMarketingNewAccount(signUpData.user.id')
+    expect(signupForm).toContain('signUpData.user.identities.length === 0')
+  })
+
   it('rejects corrupt stored payloads and PII-bearing source values', () => {
     expect(parseRecord('not JSON')).toBeNull()
     expect(parseRecord(JSON.stringify({
