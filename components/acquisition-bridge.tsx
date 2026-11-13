@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import {
-  campaignTouch, mergeTouch, parseRecord,
+  campaignTouch, mergeTouch, parseRecord, rememberMarketingTouch,
   type AcquisitionRecord, type AcquisitionTouch,
 } from '@/lib/acquisition'
 
@@ -40,6 +40,9 @@ export function AcquisitionBridge() {
     ).hostname
     let pending: AcquisitionTouch | null = null
     try { pending = campaignTouch(new URL(location.href), document.referrer) } catch { /* no source */ }
+    // Keep bounded acquisition context for this tab across internal navigation.
+    // Only accepted marketing consent creates a cross-subdomain cookie.
+    if (pending) rememberMarketingTouch(pending);
 
     const update = () => {
       if (!hasConsent() || !pending) return
