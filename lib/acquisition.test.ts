@@ -16,6 +16,12 @@ describe('privacy-bounded YRDLY acquisition tags', () => {
       source: 'tiktok', campaign: 'creator_01',
     })
   })
+  it('counts Google campaign with gclid but omitted medium as paid CPC', () => {
+    const actual = campaignTouch(new URL('https://yrdly.ng/?utm_source=google&gclid=do-not-store'), '')
+    expect(actual?.source).toBe('google')
+    expect(actual?.medium).toBe('cpc')
+    expect(JSON.stringify(actual)).not.toContain('do-not-store')
+  })
   it('recognizes a Google ad without retaining the gclid', () => {
     const touch = campaignTouch(new URL('https://yrdly.ng/?gclid=do-not-save-click-id'), '')
     expect(touch).toMatchObject({ source: 'google', medium: 'cpc' })
