@@ -41,10 +41,10 @@ export function campaignTouch(page: URL, referrer: string): AcquisitionTouch | n
   const domain = referringDomain(referrer)
   let source = clean(query.get('utm_source'))
   let medium = clean(query.get('utm_medium'))
-  if (!source && (query.has('gclid') || query.has('gad_source'))) {
-    source = 'google'
-    medium = 'cpc'
-  }
+  const googleAdClick = ['gclid', 'gad_source', 'wbraid', 'gbraid']
+    .some(key => query.has(key))
+  if (!source && googleAdClick) source = 'google'
+  if (!medium && source === 'google' && googleAdClick) medium = 'cpc'
   if (!source && query.has('msclkid')) {
     source = 'bing'
     medium = 'cpc'
