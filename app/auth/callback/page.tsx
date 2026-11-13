@@ -3,6 +3,8 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabaseAuthClient } from '@/lib/supabase-auth-client';
+import { marketingOAuthAttribution } from '@/lib/acquisition';
+import { reportMarketingNewAccount } from '@/lib/signup-events';
 import { Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.yrdly.ng';
@@ -47,14 +49,28 @@ function CallbackHandler() {
           setStatus('success');
           setMessage('Signed in! Redirecting…');
           setTimeout(() => {
-            // If the account was created within the last 30 s, treat as a new sign-up
-            const createdAt = session.user?.created_at
-              ? new Date(session.user.created_at).getTime()
-              : 0;
-            const isNewUser = Date.now() - createdAt < 30_000;
-            window.location.href = isNewUser
-              ? `${APP_URL}/onboarding/profile`
-              : `${APP_URL}/home`;
+            void (async () => {
+              const createdAt = Date.parse(session.user?.created_at || '');
+              const ageMs = Date.now() - createdAt;
+              const isNewUser = session.user.app_metadata?.provider === 'google' &&
+                Number.isFinite(ageMs) && ageMs >= -60_000 && ageMs < 600_000;
+              if (isNewUser && !session.user.user_metadata?.signup_attribution) {
+                const source = marketingOAuthAttribution(new URL(window.location.href));
+                const { error: metadataError } = await supabaseAuthClient.auth.updateUser({
+                  data: { signup_attribution: source },
+                });
+                if (metadataError) console.warn('Could not attach Google signup acquisition source');
+                // The public account-created event and Ads conversion are
+                // emitted once for this fresh user, not for routine sign-ins.
+                await reportMarketingNewAccount(session.user.id, 'google', source);
+              }
+              window.location.href = isNewUser
+                ? `${APP_URL}/onboarding/profile`
+                : `${APP_URL}/home`;
+            })().catch(() => {
+              // Attribution outages never strand a successfully signed-in user.
+              window.location.href = `${APP_URL}/home`;
+            });
           }, 1000);
           subscription.unsubscribe();
         }
