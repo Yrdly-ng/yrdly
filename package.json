@@ -6,7 +6,9 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "test:attribution": "vitest run tests/acquisition.test.ts",
+    "prebuild": "npm run test:attribution"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "1.2.2",
