@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase-auth-client";
+import { appendMarketingOAuthAttribution, marketingSignupAttribution } from "@/lib/acquisition";
+import { reportMarketingNewAccount } from "@/lib/signup-events";
 import { Loader2, Mail, Eye, EyeOff, AlertTriangle } from "lucide-react";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.yrdly.ng";
@@ -39,11 +41,13 @@ export function HeroLoginForm({
       if (process.env.NODE_ENV === "development")
         console.log("Calling signInWithOAuth with redirect:", OAUTH_REDIRECT);
 
+      const callback = new URL(OAUTH_REDIRECT);
+      appendMarketingOAuthAttribution(callback, marketingSignupAttribution());
       const { data, error: oauthError } =
         await supabaseAuthClient.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: OAUTH_REDIRECT,
+            redirectTo: callback.toString(),
             queryParams: {
               access_type: "offline",
               prompt: "consent",
@@ -84,11 +88,14 @@ export function HeroLoginForm({
 
     try {
       if (isSignUp) {
+        const attribution = marketingSignupAttribution();
         const { data: signUpData, error: signUpError } =
           await supabaseAuthClient.auth.signUp({
             email,
             password,
-            options: { data: { full_name: name } },
+            options: {
+              data: { full_name: name, signup_attribution: attribution },
+            },
           });
 
         if (signUpError) {
@@ -96,6 +103,21 @@ export function HeroLoginForm({
           setLoading(false);
           return;
         }
+
+        // Supabase's anti-enumeration response may contain a fake user
+        // with an empty identities array. Never count that as a signup.
+        if (Array.isArray(signUpData?.user?.identities) &&
+            signUpData.user.identities.length === 0) {
+          setError("This email address already has an account. Please log in.");
+          setLoading(false);
+          return;
+        }
+        if (!signUpData?.user) {
+          setError("Could not create your account. Please try again.");
+          setLoading(false);
+          return;
+        }
+        await reportMarketingNewAccount(signUpData.user.id, 'email', attribution);
 
         if (signUpData?.session) {
           window.location.href = `${APP_URL}/onboarding/profile`;

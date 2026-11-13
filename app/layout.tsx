@@ -3,6 +3,7 @@ import { Fraunces, Work_Sans } from 'next/font/google'
 import './globals.css'
 import './astra.css'
 import { CookieConsent } from '@/components/cookie-consent'
+import { AcquisitionBridge } from '@/components/acquisition-bridge'
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -71,30 +72,9 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* ✅ Google Ads Conversion Tracking (Page Load) */}
-        <Script id="google-conversion-pageview" strategy="afterInteractive">
-          {`
-            gtag('event', 'conversion', {'send_to': 'AW-18468457055/8KtMCNjnzYEdEN-UueZE'});
-          `}
-        </Script>
-
-        {/* ✅ Google Ads Conversion Tracking (Click) */}
-        <Script id="google-conversion-click" strategy="afterInteractive">
-          {`
-            window.gtag_report_conversion = function(url) {
-              var callback = function () {
-                if (typeof(url) != 'undefined') {
-                  window.location = url;
-                }
-              };
-              gtag('event', 'conversion', {
-                  'send_to': 'AW-18468457055/8KtMCNjnzYEdEN-UueZE',
-                  'event_callback': callback
-              });
-              return false;
-            }
-          `}
-        </Script>
+        {/* Google Ads base tag remains. Signup conversions must only be sent
+            after a confirmed account creation, not on marketing page loads
+            or outbound link clicks. */}
 
         {/* ✅ Google AdSense */}
         <Script
@@ -116,6 +96,7 @@ html {
       <body className={`${fraunces.variable} ${workSans.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           {children}
+          <AcquisitionBridge />
           <CookieConsent />
           <Analytics />
         </ThemeProvider>
