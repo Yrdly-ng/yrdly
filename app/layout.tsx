@@ -4,6 +4,7 @@ import './globals.css'
 import './astra.css'
 import { CookieConsent } from '@/components/cookie-consent'
 import { AcquisitionBridge } from '@/components/acquisition-bridge'
+import { MarketingTrafficTracker } from '@/components/marketing-traffic-tracker'
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -97,6 +98,7 @@ html {
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           {children}
           <AcquisitionBridge />
+          <MarketingTrafficTracker />
           <CookieConsent />
           <Analytics />
         </ThemeProvider>
