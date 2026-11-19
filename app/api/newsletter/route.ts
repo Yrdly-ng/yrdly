@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { sendWelcomeEmail, addAttendeeContact } from '@/lib/resend-email';
+import { sendWelcomeEmail, subscribeNewsletterContact } from '@/lib/resend-email';
 import { checkRateLimit, recordRateLimit } from '@/lib/supabase-client';
 
 // Validation schema for newsletter signup
 const newsletterSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  source: z.string().optional().default('newsletter-signup'),
+  email: z.string().trim().toLowerCase().email('Please enter a valid email address'),
+  source: z.enum(['newsletter-signup', 'homepage']).default('newsletter-signup'),
 });
 
 // Re-use the same Supabase-backed rate limit pattern as register-v2:
@@ -42,33 +42,23 @@ export async function POST(request: NextRequest) {
       console.warn('Rate limiting non-fatal error:', rlError);
     }
 
-    // Confirm the subscription is stored before promising success or sending mail.
-    const contactResult = await addAttendeeContact({ email, name: undefined, eventName: 'Newsletter' });
-    if (!contactResult.success) {
-      console.error('Failed to save newsletter subscription:', contactResult.error);
+    let contactId: string | null;
+    try {
+      contactId = await subscribeNewsletterContact(email);
+    } catch (error) {
+      console.error('Failed to save newsletter subscription:', error);
       return NextResponse.json(
         { success: false, message: 'We couldn’t add you to the list. Please try again, or contact support@yrdly.ng.' },
         { status: 503 }
       );
     }
 
-    // ── Send welcome email ────────────────────────────────────────────────────
-    const emailResult = await sendWelcomeEmail({
-      email,
-      source,
-      name: undefined,
-    });
-
-    if (!emailResult.success) {
-      console.error('Failed to send welcome email:', emailResult.error);
-    }
+    if (contactId) await sendWelcomeEmail({ email, source }, contactId);
 
     return NextResponse.json(
       {
         success: true,
-        message: emailResult.success
-          ? 'You’re on the list. Look out for a welcome email from YRDLY.'
-          : 'You’re on the list. Your welcome email is delayed, but your subscription is saved.',
+        message: 'Thanks for your request. If you previously unsubscribed and want to rejoin, email support@yrdly.ng.',
       },
       { status: 200 }
     );
