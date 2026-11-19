@@ -8,19 +8,12 @@ import { Input } from "@/components/ui/input";
 export function NewsletterPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "already_subscribed">("idle");
-  const [subscribedEmails, setSubscribedEmails] = useState<string[]>([]);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     try {
       const isDismissed = localStorage.getItem("yrdly_newsletter_popup_dismissed");
-      const savedSubscribed = localStorage.getItem("yrdly_subscribed_emails");
-      let currentSubscribed: string[] = [];
-      if (savedSubscribed) {
-        currentSubscribed = JSON.parse(savedSubscribed);
-        setSubscribedEmails(currentSubscribed);
-      }
-
       if (!isDismissed) {
         const timer = setTimeout(() => {
           setIsOpen(true);
@@ -45,11 +38,6 @@ export function NewsletterPopup() {
     const trimmedEmail = email.trim().toLowerCase();
     if (!trimmedEmail || status === "loading") return;
 
-    if (subscribedEmails.includes(trimmedEmail)) {
-      setStatus("already_subscribed");
-      return;
-    }
-
     setStatus("loading");
     try {
       const res = await fetch("/api/newsletter", {
@@ -58,12 +46,11 @@ export function NewsletterPopup() {
         body: JSON.stringify({ email: trimmedEmail }),
       });
 
-      if (res.ok) {
+      const result = await res.json();
+      if (res.ok && result.success) {
+        setMessage(result.message);
         setStatus("success");
-        const updated = [...subscribedEmails, trimmedEmail];
-        setSubscribedEmails(updated);
         try {
-          localStorage.setItem("yrdly_subscribed_emails", JSON.stringify(updated));
           localStorage.setItem("yrdly_newsletter_popup_dismissed", "true");
         } catch {}
       } else {
@@ -107,7 +94,7 @@ export function NewsletterPopup() {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              if (status === "error" || status === "already_subscribed") {
+              if (status === "error") {
                 setStatus("idle");
               }
             }}
@@ -119,7 +106,7 @@ export function NewsletterPopup() {
             type="submit"
             disabled={status === "loading" || status === "success"}
             className={
-              status === "success" || status === "already_subscribed"
+              status === "success"
                 ? "w-full bg-[#166534] hover:bg-[#166534] text-white font-semibold h-11 text-sm transition-colors"
                 : "w-full bg-[#82DB7E] hover:bg-[#82DB7E]/90 text-background font-semibold h-11 text-sm transition-colors"
             }
@@ -127,24 +114,18 @@ export function NewsletterPopup() {
             {status === "loading"
               ? "Subscribing…"
               : status === "success"
-              ? "✓ Subscribed!"
-              : status === "already_subscribed"
-              ? "✓ Subscribed!"
+              ? "Request received"
               : "Subscribe"}
           </Button>
         </form>
 
-        {status === "already_subscribed" && (
-          <p className="text-xs text-amber-600 font-medium">
-            This email is already subscribed to the newsletter.
-          </p>
-        )}
+        {status === "success" && <p role="status" className="text-xs text-muted-foreground">{message}</p>}
         {status === "error" && (
           <p className="text-xs text-red-500">
             Something went wrong. Please try again.
           </p>
         )}
-        {status !== "error" && status !== "already_subscribed" && (
+        {status !== "error" && status !== "success" && (
           <p className="text-xs text-muted-foreground">
             We respect your privacy. Unsubscribe anytime.
           </p>

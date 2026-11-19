@@ -25,7 +25,7 @@ export interface ContactData {
   message: string;
 }
 
-export async function sendWelcomeEmail({ email, name, source }: EmailData) {
+export async function sendWelcomeEmail({ email, name, source }: EmailData, contactId: string) {
   try {
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not configured');
     const resend = getResendClient();
@@ -93,7 +93,7 @@ export async function sendWelcomeEmail({ email, name, source }: EmailData) {
           </body>
         </html>
       `
-    });
+    }, { idempotencyKey: `newsletter-welcome/${contactId}` });
 
     if (data.error) {
       throw new Error(data.error.message);
@@ -217,6 +217,41 @@ export async function sendTicketEmail({
     console.error('Resend ticket email error:', error);
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
+}
+
+export async function subscribeNewsletterContact(email: string): Promise<string | null> {
+  const segmentId = process.env.RESEND_NEWSLETTER_SEGMENT_ID;
+  if (!segmentId) throw new Error('Newsletter segment is not configured');
+
+  const { contacts } = getResendClient();
+  const address = encodeURIComponent(email);
+  let contact = await contacts.get(address);
+
+  if (contact.error?.statusCode === 404) {
+    const created = await contacts.create({ email, segments: [{ id: segmentId }] });
+    if (created.data) return created.data.id;
+
+    // A concurrent request may have created the contact first.
+    if (created.error.statusCode !== 409) throw new Error('Newsletter contact creation failed');
+    contact = await contacts.get(address);
+  }
+
+  if (!contact.data) throw new Error('Newsletter contact lookup failed');
+  if (contact.data.unsubscribed) return null;
+
+  const id = contact.data.id;
+  let after: string | undefined;
+  do {
+    const page = await contacts.segments.list({ contactId: id, after, limit: 100 });
+    if (!page.data) throw new Error('Newsletter segment lookup failed');
+    if (page.data.data.some((segment) => segment.id === segmentId)) return null;
+    after = page.data.has_more ? page.data.data.at(-1)?.id : undefined;
+  } while (after);
+
+  const added = await contacts.segments.add({ contactId: id, segmentId });
+  if (added.error?.statusCode === 409) return null;
+  if (!added.data) throw new Error('Newsletter segment assignment failed');
+  return id;
 }
 
 let cachedAudienceId = process.env.RESEND_AUDIENCE_ID;
