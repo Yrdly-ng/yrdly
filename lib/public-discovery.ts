@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import type { PublicListing, PublicBusiness } from "./public-types";
 
-function getSupabaseClient() {
+export function getPublicDiscoveryClient() {
   const supabaseUrl =
     process.env.NEXT_PUBLIC_APP_SUPABASE_URL ||
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
@@ -18,7 +18,7 @@ function getSupabaseClient() {
 
 // Anonymous reads only: the existing database policies remain the access boundary.
 export async function getPublicDiscovery() {
-  const client = getSupabaseClient();
+  const client = getPublicDiscoveryClient();
   if (!client)
     return {
       listings: [] as PublicListing[],

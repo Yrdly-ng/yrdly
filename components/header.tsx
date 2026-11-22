@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowUpRight, Menu, X } from "lucide-react";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -84,7 +86,7 @@ export default function Header({
             Log in
           </Link>
           <Link href="/signup" className="nav-signup">
-            Sign up <span aria-hidden="true">↗</span>
+            Sign up <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
           <button
             ref={trigger}
@@ -95,7 +97,7 @@ export default function Header({
             onClick={() => setOpen(!open)}
           >
             {open ? "Close" : "Menu"}{" "}
-            <span aria-hidden="true">{open ? "×" : "☰"}</span>
+            <span aria-hidden="true">{open ? <X size={18} /> : <Menu size={18} />}</span>
           </button>
         </div>
       </div>
@@ -112,7 +114,7 @@ export default function Header({
               onClick={() => setOpen(false)}
             >
               {link.label}
-              <span aria-hidden="true">↗</span>
+              <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
           ))}
           <Link href="/blog">Journal</Link>
@@ -120,7 +122,7 @@ export default function Header({
           <Link href="/contact">Contact</Link>
           <button className="text-link" onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} aria-label="Toggle colour theme">Change colour theme</button>
           <a href={appLink()} className="button button-primary">
-            Explore YRDLY ↗
+            Explore YRDLY <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         </nav>
       )}

@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { appLink } from "@/lib/app-links";
 
@@ -16,7 +17,7 @@ export default function Footer() {
               and possibilities around you.
             </p>
             <a href={appLink()} className="text-link">
-              Find your neighbourhood <span aria-hidden="true">↗</span>
+              Find your neighbourhood <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           </div>
           <nav aria-label="Explore YRDLY">
@@ -24,7 +25,7 @@ export default function Footer() {
             <Link href="/marketplace">Marketplace</Link>
             <Link href="/events">Events</Link>
             <Link href="/businesses">Local businesses</Link>
-            <a href={appLink("/communities")}>Communities ↗</a>
+            <a href={appLink("/communities")}>Communities <ArrowUpRight size={14} aria-hidden="true" /></a>
             <Link href="/learn-more">How YRDLY works</Link>
           </nav>
           <nav aria-label="About YRDLY">
@@ -43,7 +44,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
             >
-              Instagram ↗
+              Instagram <ArrowUpRight size={14} aria-hidden="true" />
             </a>
             <a href="mailto:support@yrdly.ng">support@yrdly.ng</a>
             <a href="tel:09166368783">0916 636 8783</a>

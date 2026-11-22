@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
+
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -256,7 +258,7 @@ export function DiscoveryBrowser({
             <div className="inline-actions">
               {hasFilters && (
                 <button className="text-link" onClick={reset}>
-                  Clear filters ↗
+                  Clear filters <ArrowUpRight size={14} aria-hidden="true" />
                 </button>
               )}
               {hasError && (
@@ -270,11 +272,11 @@ export function DiscoveryBrowser({
               )}
               {!hasFilters && !hasError && (
                 <Link href={kind === "marketplace" ? "/events" : "/marketplace"} className="text-link">
-                  {kind === "marketplace" ? "Discover events" : "Browse marketplace finds"} ↗
+                  {kind === "marketplace" ? "Discover events" : "Browse marketplace finds"} <ArrowUpRight size={14} aria-hidden="true" />
                 </Link>
               )}
               <a href={appLink(`/${kind}`)} className="text-link">
-                Explore in the app ↗
+                Explore in the app <ArrowUpRight size={14} aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -284,11 +286,11 @@ export function DiscoveryBrowser({
         <p>Public previews. No account needed to look around.</p>
         {compact ? (
           <Link className="text-link" href={`/${kind}`}>
-            More {labels[kind].toLowerCase()} <span aria-hidden="true">↗</span>
+            More {labels[kind].toLowerCase()} <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
         ) : (
           <a className="text-link" href={appLink(`/${kind}`)}>
-            Keep exploring on YRDLY ↗
+            Keep exploring on YRDLY <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         )}
       </div>
