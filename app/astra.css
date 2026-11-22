@@ -253,7 +253,7 @@ h2 em,
   border-radius: var(--radius-control);
   white-space: nowrap;
 }
-.nav-signup span {
+.nav-signup svg {
   margin-left: 16px;
 }
 .menu-button {
@@ -356,6 +356,12 @@ h2 em,
   font-size: 11px;
   line-height: 1.7;
   margin-left: auto;
+}
+:is(.button, .nav-signup, .mobile-menu, .text-link, .footer-main, main) .lucide-arrow-up-right,
+.text-link .lucide-arrow-down {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 .note-arrow {
   font-size: 29px;
@@ -1329,7 +1335,7 @@ h2 em,
     border: 0;
     padding: 14px 0;
   }
-  .nav-signup span {
+  .nav-signup svg {
     display: none;
   }
   .menu-button {

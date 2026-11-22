@@ -1,24 +1,17 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getPublicDiscoveryClient } from '@/lib/public-discovery';
 import { eventIsPast } from '@/lib/public-types';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Connects to the Web App's Supabase project to read live published events.
-// Uses the anon key — RLS on the events table must allow public SELECT on
-// visible, published events (which it does by default in the app project).
-const APP_SUPABASE_URL = process.env.NEXT_PUBLIC_APP_SUPABASE_URL;
-const APP_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_APP_SUPABASE_ANON_KEY;
-
 export async function GET(request: Request) {
   try {
-    if (!APP_SUPABASE_URL || !APP_SUPABASE_ANON_KEY) {
-      console.error('[events/api] App Supabase env vars not set. Returning empty list.');
+    const supabase = getPublicDiscoveryClient();
+    if (!supabase) {
+      console.error('[events/api] Public Supabase client unavailable.');
       return NextResponse.json([], { status: 503 });
     }
-
-    const supabase = createClient(APP_SUPABASE_URL, APP_SUPABASE_ANON_KEY);
 
     const eventId = new URL(request.url).searchParams.get("id");
     let query = supabase

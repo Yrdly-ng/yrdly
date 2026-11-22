@@ -1,5 +1,7 @@
+import { ArrowDown, ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { CampaignBanner } from "@/components/campaigns/CampaignBanner";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { DiscoveryBrowser } from "@/components/discovery/discovery-browser";
@@ -37,10 +39,10 @@ export default async function HomePage() {
             </p>
             <div className="hero-actions">
               <a href={appLink()} className="button button-primary">
-                Explore YRDLY <span aria-hidden="true">↗</span>
+                Explore YRDLY <ArrowUpRight size={14} aria-hidden="true" />
               </a>
               <a href="#discover" className="text-link">
-                Take a look around <span aria-hidden="true">↓</span>
+                Take a look around <ArrowDown size={14} aria-hidden="true" />
               </a>
             </div>
             <p className="hero-footnote">
@@ -49,12 +51,13 @@ export default async function HomePage() {
           </div>
           <div className="hero-editorial">
             <figure className="hero-photo">
-              <img
+              <Image
                 src="/editorial/gathering.webp"
                 alt="Friends spending an afternoon together outdoors"
-                fetchPriority="high"
-                width="1500"
-                height="1000"
+                preload
+                sizes="(max-width: 900px) 100vw, 50vw"
+                width={1500}
+                height={1000}
               />
               <figcaption>
                 <span>OFFLINE MOMENTS. ONLINE CONNECTIONS.</span>
@@ -77,7 +80,7 @@ export default async function HomePage() {
                 aria-label="Discover public listings"
                 className="note-arrow"
               >
-                ↘
+                <ArrowDownRight size="1em" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -88,16 +91,16 @@ export default async function HomePage() {
         >
           <span>A LITTLE OF EVERYTHING</span>
           <Link href="/marketplace">
-            A good find <span>↗</span>
+            A good find <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
           <Link href="/events">
-            A plan to make <span>↗</span>
+            A plan to make <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
           <Link href="/businesses">
-            A local favourite <span>↗</span>
+            A local favourite <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
           <a href={appLink("/communities")}>
-            Your kind of people <span>↗</span>
+            Your kind of people <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         </nav>
         <section id="discover" className="section wrap">
@@ -145,7 +148,7 @@ export default async function HomePage() {
                 discoveries a little closer.
               </p>
               <Link href="/businesses" className="text-link">
-                Meet your local businesses <span aria-hidden="true">↗</span>
+                Meet your local businesses <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
               <div className="story-footer">
                 <span>Made for local life.</span>
@@ -167,7 +170,7 @@ export default async function HomePage() {
               was happening. Find a reason to step out.
             </p>
             <Link href="/events" className="button button-dark">
-              Find your next plan ↗
+              Find your next plan <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
           </div>
           <figure>
@@ -195,7 +198,7 @@ export default async function HomePage() {
               neighbourhood has its own rhythm. There’s room for it here.
             </p>
             <a href={appLink("/communities")} className="text-link">
-              Find your community ↗
+              Find your community <ArrowUpRight size={14} aria-hidden="true" />
             </a>
             <div className="place-line" aria-hidden="true">
               <span>Jos</span>
@@ -218,7 +221,7 @@ export default async function HomePage() {
               </h2>
             </div>
             <Link href="/blog" className="text-link">
-              Read the journal ↗
+              Read the journal <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
           </div>
           <div className="journal-list">
@@ -231,7 +234,7 @@ export default async function HomePage() {
                   </p>
                   <h3>{article.title}</h3>
                 </div>
-                <span aria-hidden="true">↗</span>
+                <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
             ))}
           </div>
@@ -260,10 +263,10 @@ export default async function HomePage() {
             Go on. <em>Say hello.</em>
           </h2>
           <a href={appLink()} className="button button-primary">
-            Explore YRDLY ↗
+            Explore YRDLY <ArrowUpRight size={14} aria-hidden="true" />
           </a>
           <Link href="/faq" className="text-link">
-            A few questions first? ↗
+            A few questions first? <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
         </section>
       </main>

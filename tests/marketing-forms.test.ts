@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 
 const email = vi.hoisted(() => ({
-  sendContactEmail: vi.fn(), sendWelcomeEmail: vi.fn(), addAttendeeContact: vi.fn(),
+  sendContactEmail: vi.fn(), sendWelcomeEmail: vi.fn(), subscribeNewsletterContact: vi.fn(),
 }));
 vi.mock("@/lib/resend-email", () => email);
 vi.mock("@/lib/supabase-client", () => ({ checkRateLimit: vi.fn().mockResolvedValue(0), recordRateLimit: vi.fn() }));
@@ -17,7 +17,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   email.sendContactEmail.mockResolvedValue({ success: true });
   email.sendWelcomeEmail.mockResolvedValue({ success: true });
-  email.addAttendeeContact.mockResolvedValue({ success: true });
+  email.subscribeNewsletterContact.mockResolvedValue("qa-contact-id");
 });
 
 describe("contact delivery feedback", () => {
@@ -40,21 +40,33 @@ describe("contact delivery feedback", () => {
 
 describe("newsletter subscription feedback", () => {
   it("does not send a welcome message when subscription storage fails", async () => {
-    email.addAttendeeContact.mockResolvedValue({ success: false, error: "Unavailable" });
+    email.subscribeNewsletterContact.mockRejectedValue(new Error("Unavailable"));
     const response = await newsletter(request({ email: "qa@example.test" }));
     expect(response.status).toBe(503);
     expect(email.sendWelcomeEmail).not.toHaveBeenCalled();
   });
-  it("distinguishes a saved subscription from delayed email", async () => {
+  it("returns an accepted response when welcome delivery fails", async () => {
     email.sendWelcomeEmail.mockResolvedValue({ success: false });
     const response = await newsletter(request({ email: "qa@example.test" }));
     expect(response.status).toBe(200);
-    expect((await response.json()).message).toContain("subscription is saved");
+    expect(await response.json()).toMatchObject({ success: true });
   });
-  it("confirms both subscription and welcome email when successful", async () => {
+  it("sends welcome mail for an accepted contact", async () => {
     const response = await newsletter(request({ email: "qa@example.test" }));
-    expect((await response.json()).message).toContain("welcome email");
-    expect(email.addAttendeeContact).toHaveBeenCalledOnce();
-    expect(email.sendWelcomeEmail).toHaveBeenCalledOnce();
+    expect(response.status).toBe(200);
+    expect(email.subscribeNewsletterContact).toHaveBeenCalledOnce();
+    expect(email.sendWelcomeEmail).toHaveBeenCalledWith(
+      { email: "qa@example.test", source: "newsletter-signup" },
+      "qa-contact-id",
+    );
+  });
+  it("gives the same response for an unsubscribed contact without sending email", async () => {
+    const accepted = await newsletter(request({ email: "qa@example.test" }));
+    email.sendWelcomeEmail.mockClear();
+    email.subscribeNewsletterContact.mockResolvedValue(null);
+    const optedOut = await newsletter(request({ email: "opted-out@example.test" }));
+    expect(optedOut.status).toBe(accepted.status);
+    expect(await optedOut.json()).toEqual(await accepted.json());
+    expect(email.sendWelcomeEmail).not.toHaveBeenCalled();
   });
 });

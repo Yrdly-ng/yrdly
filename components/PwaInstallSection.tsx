@@ -1,4 +1,6 @@
 "use client";
+
+import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { appLink } from "@/lib/app-links";
 const instructions = {
@@ -34,7 +36,7 @@ export function PwaInstallSection() {
           conversations, saved finds and next plans, all in one place.
         </p>
         <a href={appLink()} className="text-link">
-          Open the web app ↗
+          Open the web app <ArrowUpRight size={14} aria-hidden="true" />
         </a>
       </div>
       <div>
