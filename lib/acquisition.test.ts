@@ -99,3 +99,27 @@ describe('privacy-bounded YRDLY acquisition tags', () => {
     }))).toBeNull()
   })
 })
+
+
+describe('Google measurement privacy defaults', () => {
+  it('fails closed on absent, denied or conflicting cross-subdomain cookie choices', async () => {
+    const { hasGoogleConsent, hasGoogleConsentChoice } = await import('./google-consent')
+    expect(hasGoogleConsent('')).toBe(false)
+    expect(hasGoogleConsent('yrdly_cookie_consent=true; yrdly_cookie_consent=false')).toBe(false)
+    expect(hasGoogleConsent('yrdly_cookie_consent=true')).toBe(true)
+    expect(hasGoogleConsentChoice('yrdly_cookie_consent=false')).toBe(true)
+  })
+  it('denies ad user data and personalization even after measurement opt-in', async () => {
+    const { queueGoogleConsent, maskedPath } = await import('./google-consent')
+    const queue: unknown[] = []
+    queueGoogleConsent(queue, 'default', false)
+    queueGoogleConsent(queue, 'update', true)
+    queueGoogleConsent(queue, 'update', false)
+    const commands = queue.map(command => Array.from(command as ArrayLike<unknown>))
+    expect(commands[0]).toEqual(['consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'}])
+    expect(commands[1][2]).toMatchObject({analytics_storage: 'granted', ad_user_data: 'denied', ad_personalization: 'denied'})
+    expect(commands[2][2]).toMatchObject({analytics_storage: 'denied', ad_storage: 'denied'})
+    expect(maskedPath('/marketplace/private-listing-id')).toBe('/marketplace/detail')
+    expect(maskedPath('/auth/callback')).toBe('/other')
+  })
+})

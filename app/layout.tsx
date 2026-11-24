@@ -79,13 +79,14 @@ export default function RootLayout({
           </>
         )}
 
-        {/* ✅ Google AdSense */}
-        <Script
+        {/* Legacy AdSense remains unchanged until cutover. Its consent integration
+            must be verified independently before enabling it in GTM mode. */}
+        {!googleTagManagerEnabled && <Script
           async
           strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4168167607384837"
           crossOrigin="anonymous"
-        />
+        />}
 
         <style>{`
 html {
