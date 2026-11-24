@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { CookiePreferencesButton } from "@/components/cookie-consent";
 
 export const metadata = {
   title: "Cookie Policy - Yrdly",
@@ -112,6 +113,7 @@ export default function CookiePolicyPage() {
               <p style={{ ...P, marginBottom: "1rem" }}>
                 You have the right to control and manage how cookies are stored on your device. Most web browsers allow you to manage cookie settings through their preferences menu:
               </p>
+              <CookiePreferencesButton />
               <ul style={{ listStyle: "disc", paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                 <li style={P}>
                   <strong style={{ color: "var(--fg)" }}>Google Chrome:</strong> Settings &rarr; Privacy and security &rarr; Third-party cookies.

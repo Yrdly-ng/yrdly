@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Fraunces, Work_Sans } from 'next/font/google'
 import './globals.css'
 import './astra.css'
+import { GoogleMeasurement } from '@/components/google-measurement'
 import { CookieConsent } from '@/components/cookie-consent'
 import { AcquisitionBridge } from '@/components/acquisition-bridge'
 import { MarketingTrafficTracker } from '@/components/marketing-traffic-tracker'
@@ -45,6 +46,8 @@ export const metadata: Metadata = {
   },
 }
 
+const googleTagManagerEnabled = process.env.NEXT_PUBLIC_YRDLY_GOOGLE_MEASUREMENT === 'gtm'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -58,32 +61,32 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <head>
-        {/* ✅ Google Analytics Tag */}
-        <Script
-          async
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18468457055"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18468457055');
-          `}
-        </Script>
+        {!googleTagManagerEnabled && (
+          <>
+            <Script
+              async
+              strategy="afterInteractive"
+              src="https://www.googletagmanager.com/gtag/js?id=AW-18468457055"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'AW-18468457055');
+              `}
+            </Script>
+          </>
+        )}
 
-        {/* Google Ads base tag remains. Signup conversions must only be sent
-            after a confirmed account creation, not on marketing page loads
-            or outbound link clicks. */}
-
-        {/* ✅ Google AdSense */}
-        <Script
+        {/* Legacy AdSense remains unchanged until cutover. Its consent integration
+            must be verified independently before enabling it in GTM mode. */}
+        {!googleTagManagerEnabled && <Script
           async
           strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4168167607384837"
           crossOrigin="anonymous"
-        />
+        />}
 
         <style>{`
 html {
@@ -100,6 +103,7 @@ html {
           <AcquisitionBridge />
           <MarketingTrafficTracker />
           <CookieConsent />
+          {googleTagManagerEnabled && <GoogleMeasurement />}
           <Analytics />
         </ThemeProvider>
       </body>
