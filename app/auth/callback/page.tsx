@@ -16,7 +16,8 @@ function CallbackHandler() {
   const [message, setMessage] = useState('Completing sign in...');
 
   useEffect(() => {
-    if (!supabaseAuthClient) {
+    const authClient = supabaseAuthClient;
+    if (!authClient) {
       setStatus('error');
       setMessage('Authentication is not configured.');
       return;
@@ -43,7 +44,7 @@ function CallbackHandler() {
     // • PKCE flow   (?code=xxx  → client calls exchangeCodeForSession internally)
     // • Implicit flow (#access_token=xxx → client parses hash internally)
     // because detectSessionInUrl:true is set in the Supabase client config.
-    const { data: { subscription } } = supabaseAuthClient.auth.onAuthStateChange(
+    const { data: { subscription } } = authClient.auth.onAuthStateChange(
       (event, session) => {
         if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
           setStatus('success');
@@ -56,7 +57,7 @@ function CallbackHandler() {
                 Number.isFinite(ageMs) && ageMs >= -60_000 && ageMs < 600_000;
               if (isNewUser && !session.user.user_metadata?.signup_attribution) {
                 const source = marketingOAuthAttribution(new URL(window.location.href));
-                const { error: metadataError } = await supabaseAuthClient.auth.updateUser({
+                const { error: metadataError } = await authClient.auth.updateUser({
                   data: { signup_attribution: source },
                 });
                 if (metadataError) console.warn('Could not attach Google signup acquisition source');
@@ -81,7 +82,7 @@ function CallbackHandler() {
     // (detectSessionInUrl handles this automatically but we keep this as a belt-and-braces.)
     const code = searchParams.get('code');
     if (code) {
-      supabaseAuthClient.auth.exchangeCodeForSession(code).then(({ error }) => {
+      authClient.auth.exchangeCodeForSession(code).then(({ error }) => {
         if (error) {
           setStatus('error');
           setMessage(error.message || 'Failed to complete sign in.');
