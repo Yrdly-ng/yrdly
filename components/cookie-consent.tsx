@@ -18,7 +18,12 @@ export function CookieConsent() {
 
   const acceptConsent = () => {
     setShowConsent(false);
-    Cookies.set(COOKIE_NAME, "true", { expires: 365 });
+    const shared = process.env.NEXT_PUBLIC_YRDLY_GOOGLE_MEASUREMENT === "gtm" &&
+      ["yrdly.ng", "www.yrdly.ng"].includes(window.location.hostname);
+    if (shared) Cookies.remove(COOKIE_NAME);
+    Cookies.set(COOKIE_NAME, "true", shared
+      ? { expires: 365, domain: "yrdly.ng", sameSite: "lax", secure: true }
+      : { expires: 365 });
     window.dispatchEvent(new Event("yrdly:cookie-consent"));
   };
 
