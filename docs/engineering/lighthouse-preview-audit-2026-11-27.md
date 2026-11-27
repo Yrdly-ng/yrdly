@@ -43,3 +43,10 @@ The initial mobile run before the logo/card sizing changes transferred about 1,3
 - Accessibility and best-practices category scores were 100 in these synthetic runs; that does not replace manual keyboard, screen-reader, zoom, and color-contrast checks.
 - Authenticated app route tests remain blocked by the isolated visual-review job failing before runner assignment. Static checks and Playwright test discovery pass, but authenticated browser assertions have not run.
 - No production deployment or production data change was made.
+
+## SEO and standards follow-through
+
+- Aligned the page title, description, Open Graph and Twitter metadata with the YRDLY name and Nigerian/British English copy.
+- Added server-rendered Schema.org `Organization` and `WebSite` JSON-LD using only verified brand, canonical URL, logo and language information.
+- The official Modern Web Guidance legacy scan completed with **0 findings across 137 marketing-site files** (52 deterministic rules across 38 guides).
+- Marketing verification passed after the scanner-driven accessibility fixes.
