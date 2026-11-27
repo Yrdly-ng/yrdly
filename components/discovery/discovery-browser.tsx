@@ -46,14 +46,22 @@ export function DiscoveryBrowser({
   const [category, setCategory] = useState("");
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
-    if (fixedKind && initialKind !== "events") {
+    // Event data is only needed while the Events tab is active. Avoid making
+    // an unused events request during the initial marketplace homepage render.
+    if (kind !== "events") {
       setLoading(false);
       return;
     }
+
     const controller = new AbortController();
     setLoading(true);
     setEventError(false);
-    fetch("/api/events", { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]) })
+    fetch("/api/events", {
+      signal: AbortSignal.any([
+        controller.signal,
+        AbortSignal.timeout(15000),
+      ]),
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Events unavailable");
         return res.json();
@@ -62,14 +70,15 @@ export function DiscoveryBrowser({
         if (!Array.isArray(data)) throw new Error("Invalid events");
         setEvents(data);
       })
-      .catch((error) => {
+      .catch(() => {
         if (!controller.signal.aborted) setEventError(true);
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
       });
+
     return () => controller.abort();
-  }, [attempt, fixedKind, initialKind]);
+  }, [attempt, kind]);
   const all = useMemo(
     () => [...listings, ...businesses, ...events],
     [listings, businesses, events],
