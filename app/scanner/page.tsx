@@ -215,6 +215,8 @@ export default function ScannerPage() {
                 <div className="space-y-2">
                   <Input
                     type="password"
+                    name="adminPassword"
+                    autoComplete="current-password"
                     placeholder="Admin Password"
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}
