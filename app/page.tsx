@@ -124,12 +124,13 @@ export default async function HomePage() {
         <section className="local-story">
           <div className="wrap story-grid">
             <figure>
-              <img
+              <Image
                 src="/editorial/market.webp"
                 alt="A trader surrounded by fresh produce at a local market"
                 loading="lazy"
-                width="1000"
-                height="800"
+                sizes="(max-width: 900px) 100vw, 50vw"
+                width={1000}
+                height={800}
               />
               <figcaption>
                 Behind every local favourite, there’s a person.
@@ -176,11 +177,12 @@ export default async function HomePage() {
             </Link>
           </div>
           <figure>
-            <img
+            <Image
               src="/editorial/celebration.webp"
               alt="Guests dancing together at a celebration"
-              width="1000"
-              height="700"
+              width={1000}
+              height={700}
+              sizes="(max-width: 900px) 100vw, 50vw"
               loading="lazy"
             />
             <figcaption>There’s always a reason to come together.</figcaption>
