@@ -378,9 +378,19 @@ html {
 .ticket-divider::after { right: -30px; }
 
 /* ── Yrdly redesign utilities ── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(130, 219, 126, 0.4); border-radius: 2px; }
+* {
+  scrollbar-color: rgba(130, 219, 126, 0.4) transparent;
+  scrollbar-width: thin;
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(130, 219, 126, 0.4);
+    border-radius: 2px;
+  }
+}
 
 body {
   font-family: var(--font-work-sans), system-ui, sans-serif;
