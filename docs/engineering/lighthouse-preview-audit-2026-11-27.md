@@ -12,16 +12,16 @@
 
 | Metric | Mobile | Desktop |
 |---|---:|---:|
-| Lighthouse performance | 85–86 | 97 |
+| Lighthouse performance | 80–86 | 97 |
 | Lighthouse accessibility | 100 | 100 |
 | Lighthouse best practices | 100 | 100 |
 | First Contentful Paint | 1.3 s | 0.8 s |
 | Largest Contentful Paint | 3.6 s | 1.1 s |
-| Total Blocking Time | 200 ms | 0 ms |
+| Total Blocking Time | 200–400 ms | 0 ms |
 | Cumulative Layout Shift | 0 | 0 |
 | Total transfer size | about 1,126 KiB | not recorded in this run |
 
-A separate run against the immediately preceding preview returned mobile performance 88 and LCP 2.8 s. That run is not the current PR-head baseline; do not treat it as proof of a sustained improvement. Lighthouse variability is material, so compare repeated runs on the same deployment and device profile.
+Repeated runs on the current and immediately preceding previews varied from mobile performance 80 to 88 and LCP 2.8 to 3.6 s; the latest current-preview run was performance 80, LCP 3.6 s, TBT 400 ms. Treat the higher LCP and TBT readings as the conservative current baseline. Lighthouse variability is material, so compare repeated runs on the same deployment and device profile.
 
 ## Current LCP diagnosis
 
