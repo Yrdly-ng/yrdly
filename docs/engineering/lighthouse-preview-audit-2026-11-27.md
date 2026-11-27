@@ -17,8 +17,8 @@ Preview: `https://yrdly-582qqg5sw-calebs-projects-98954387.vercel.app/`
 | Lighthouse accessibility | 100 | 100 |
 | Lighthouse best practices | 100 | 100 |
 | First Contentful Paint | 1.3 s | 0.4 s |
-| Largest Contentful Paint | 3.7 s | 1.0 s |
-| Total Blocking Time | 290 ms | 70 ms |
+| Largest Contentful Paint | 3.5 s | 1.0 s |
+| Total Blocking Time | 330 ms | 70 ms |
 | Cumulative Layout Shift | 0 | 0 |
 | Total transfer size | 1,126 KiB | 1,431 KiB |
 
@@ -33,9 +33,9 @@ The initial mobile run before the logo/card sizing changes transferred about 1,3
 
 ## Remaining performance work
 
-- Mobile LCP remains about 3.7 s, above the 2.5 s Core Web Vitals good threshold.
+- Mobile LCP remains about 3.5 s, above the 2.5 s Core Web Vitals good threshold.
 - Mobile TBT remains about 290 ms; the trace attributes substantial script work to third-party scripts and app bundles.
-- Lighthouse estimates about 290 KiB of unused JavaScript. Third-party ad and measurement integrations were left unchanged in this pass; they need a separate consent/attribution-safe review before any loading-strategy change.
+- Lighthouse estimates about 289 KiB of unused JavaScript. Third-party ad and measurement integrations were left unchanged in this pass; they need a separate consent/attribution-safe review before any loading-strategy change.
 - Continue profiling the hero's mobile LCP and app-owned JavaScript before making further structural changes.
 
 ## Verification limits
