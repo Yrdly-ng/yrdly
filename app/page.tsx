@@ -11,7 +11,9 @@ import { NewsletterSignup } from "@/components/newsletter-signup";
 import { PwaInstallSection } from "@/components/PwaInstallSection";
 import { BLOG_ARTICLES } from "./blog/articles-data";
 
-export const dynamic = "force-dynamic";
+// Homepage discovery data is cached for 60 seconds; updates remain fresh without
+// forcing an uncached render and Supabase read on every anonymous visit.
+export const revalidate = 60;
 
 export default async function HomePage() {
   const discovery = await getPublicDiscovery();
