@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 import type { PublicListing, PublicBusiness } from "./public-types";
 
 export function getPublicDiscoveryClient() {
@@ -17,7 +18,7 @@ export function getPublicDiscoveryClient() {
 }
 
 // Anonymous reads only: the existing database policies remain the access boundary.
-export async function getPublicDiscovery() {
+async function getPublicDiscoveryUncached() {
   const client = getPublicDiscoveryClient();
   if (!client)
     return {
@@ -52,3 +53,12 @@ export async function getPublicDiscovery() {
     unavailable: { marketplace: Boolean(listings.error), businesses: Boolean(businesses.error) },
   };
 }
+
+
+// Public homepage discovery is non-personalized and can tolerate a short cache.
+// This prevents every anonymous homepage request from issuing duplicate DB reads.
+export const getPublicDiscovery = unstable_cache(
+  getPublicDiscoveryUncached,
+  ["yrdly-public-discovery-v1"],
+  { revalidate: 60, tags: ["public-discovery"] },
+);
