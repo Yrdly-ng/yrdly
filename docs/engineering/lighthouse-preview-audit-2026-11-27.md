@@ -59,3 +59,16 @@ The earlier comparison showed transfer size falling from about 1,323 KiB to abou
 - Added server-rendered Schema.org `Organization` and `WebSite` JSON-LD using verified brand, canonical URL, logo and language information.
 - The official Modern Web Guidance legacy scan completed with **0 findings across 137 marketing-site files** (52 deterministic rules across 38 guides).
 - Marketing verification passed, including frozen-lockfile install, TypeScript, attribution tests, lint, production build, and the Google guidance legacy scan.
+
+
+## Live production spot-check (currently deployed site)
+
+A separate set of mobile Lighthouse runs against `https://yrdly.ng/` was taken as a baseline only; no production changes were made. Across three runs, performance varied from 88 to 93, FCP from 1.1 to 1.7s, LCP from 3.0 to 4.1s, and TBT from 37 to 41ms; CLS remained 0. In the latest run (2026-11-27 23:54:05 UTC), performance was 88, accessibility 100, Best Practices 77, FCP 1.4s, LCP 3.8s, TBT 37ms, and CLS 0. Root-document response time varied materially (about 755–1,391ms).
+
+The production audit also reported:
+- 403 responses for some Next.js RSC prefetches to `/terms` and `/privacy-policy`. These may involve edge/security handling; they need a controlled browser/network investigation before changing Cloudflare rules.
+- A Cloudflare challenge-platform deprecated API warning. This is emitted by the edge challenge script, not YRDLY application code; do not alter challenge/security settings based on Lighthouse alone.
+- About 239 KiB of potential image-delivery savings, including the production `/logo.png` asset (1280×1280, about 158 KiB, displayed around 53×53 px) and some discovery images. The current PR already switches the header logo to Next.js Image and supplies responsive discovery image sizing; re-audit the preview after the changes rather than treating the older production finding as proof that the PR fix failed.
+- The live production page is not the PR preview. These findings are a baseline for a later controlled comparison after an explicitly approved production release.
+
+Paid-ad and measurement scripts remain untouched. No Cloudflare security configuration was changed.
