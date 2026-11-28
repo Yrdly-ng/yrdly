@@ -7,11 +7,13 @@ export function ContentImage({
   alt,
   className = "",
   eager = false,
+  sizes = "(max-width: 600px) 44vw, (max-width: 900px) 28vw, 22vw",
 }: {
   src?: string | null;
   alt: string;
   className?: string;
   eager?: boolean;
+  sizes?: string;
 }) {
   const [failed, setFailed] = useState(false);
   const [optimizerFailed, setOptimizerFailed] = useState(false);
@@ -25,7 +27,7 @@ export function ContentImage({
       src={src}
       alt={alt}
       fill
-      sizes="(max-width: 600px) 90vw, (max-width: 900px) 50vw, 650px"
+      sizes={sizes}
       className={className}
       priority={eager}
       unoptimized={!optimizable || optimizerFailed}

@@ -37,6 +37,7 @@ export function BusinessCard({ item }: { item: PublicBusiness }) {
         <ContentImage
           src={item.cover_image || firstImage(item.image_urls) || item.logo}
           alt={item.name}
+          sizes="110px"
         />
       </div>
       <div>
@@ -56,7 +57,7 @@ export function EventCard({ item }: { item: PublicEvent }) {
   return (
     <Link href={`/events/${item.id}`} className="event-card">
       <div className="event-image">
-        <ContentImage src={item.image} alt={item.name} />
+        <ContentImage src={item.image} alt={item.name} sizes="(max-width: 600px) 125px, (max-width: 900px) 40vw, 30vw" />
       </div>
       <div className="event-copy">
         <p className="event-date">

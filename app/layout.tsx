@@ -24,8 +24,8 @@ const workSans = Work_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Yrdly - Your Neighborhood Network',
-  description: 'Connect with your neighbors, share updates, and build a stronger community with Yrdly.',
+  title: 'YRDLY — Your Neighbourhood Network',
+  description: 'Connect with neighbours, discover local businesses and events, and buy and sell safely in your community.',
   metadataBase: new URL('https://yrdly.ng'),
   alternates: {
     canonical: '/',
@@ -33,17 +33,35 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://yrdly.ng',
-    title: 'Yrdly - Your Neighborhood Network',
-    description: 'Connect with your neighbors, buy and sell safely on your street, and discover local events just steps away.',
-    siteName: 'Yrdly',
+    title: 'YRDLY — Your Neighbourhood Network',
+    description: 'Connect with neighbours, discover local businesses and events, and buy and sell safely in your community.',
+    siteName: 'YRDLY',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Yrdly — Your Neighbourhood, Connected.' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Yrdly - Your Neighborhood Network',
-    description: 'Connect with your neighbors, buy and sell safely on your street, and discover local events just steps away.',
+    title: 'YRDLY — Your Neighbourhood Network',
+    description: 'Connect with neighbours, discover local businesses and events, and buy and sell safely in your community.',
     images: ['/og-image.png'],
   },
+}
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "YRDLY",
+      url: "https://yrdly.ng",
+      logo: "https://yrdly.ng/logo.png",
+    },
+    {
+      "@type": "WebSite",
+      name: "YRDLY",
+      url: "https://yrdly.ng",
+      inLanguage: "en-NG",
+    },
+  ],
 }
 
 const googleTagManagerEnabled = process.env.NEXT_PUBLIC_YRDLY_GOOGLE_MEASUREMENT === 'gtm'
@@ -61,6 +79,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+          }}
+        />
         {!googleTagManagerEnabled && (
           <>
             <Script

@@ -213,8 +213,14 @@ export default function ScannerPage() {
             <CardContent className="pt-6">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
+                  <label htmlFor="admin-password" className="sr-only">
+                    Admin password
+                  </label>
                   <Input
+                    id="admin-password"
                     type="password"
+                    name="adminPassword"
+                    autoComplete="current-password"
                     placeholder="Admin Password"
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}

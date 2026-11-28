@@ -4,6 +4,7 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { appLink } from "@/lib/app-links";
@@ -46,7 +47,7 @@ export default function Header({
       </a>
       <div className="site-nav wrap">
         <Link href="/" className="brand" aria-label="YRDLY home">
-          <img src="/logo.png" width="42" height="42" alt="" />
+          <Image src="/logo.png" width={42} height={42} sizes="42px" alt="" />
           <span>
             yrdly<span className="brand-period">.</span>
           </span>

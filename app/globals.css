@@ -378,9 +378,19 @@ html {
 .ticket-divider::after { right: -30px; }
 
 /* ── Yrdly redesign utilities ── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(130, 219, 126, 0.4); border-radius: 2px; }
+* {
+  scrollbar-color: rgba(130, 219, 126, 0.4) transparent;
+  scrollbar-width: thin;
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(130, 219, 126, 0.4);
+    border-radius: 2px;
+  }
+}
 
 body {
   font-family: var(--font-work-sans), system-ui, sans-serif;
@@ -521,4 +531,26 @@ body {
   gap: 2.5rem;
   align-items: start;
   padding: 2rem 2.5rem;
+}
+
+
+/* Accessibility defaults: visible keyboard focus and motion preferences. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
