@@ -56,7 +56,7 @@ export default async function HomePage() {
               <Image
                 src="/editorial/gathering.webp"
                 alt="Friends spending an afternoon together outdoors"
-                preload
+                loading="lazy"
                 sizes="(max-width: 900px) 100vw, 50vw"
                 width={1500}
                 height={1000}
